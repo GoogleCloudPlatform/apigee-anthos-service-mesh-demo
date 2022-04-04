@@ -14,7 +14,7 @@
               "gcloud config set project \"$GOOGLE_CLOUD_PROJECT\"",
               "gcloud services enable compute.googleapis.com",
               "echo \"Creating default network...\"",
-              "gcloud compute networks create default --subnet-mode=auto --bgp-routing-mode=regional --mtu=1460",
+              "gcloud compute networks create default --subnet-mode=auto --bgp-routing-mode=regional --mtu=1460 || true",
               "echo \"Provisioning Apigee...\"",
               "$(curl -L https://raw.githubusercontent.com/apigee/devrel/main/tools/apigee-x-trial-provision/apigee-x-trial-provision.sh | bash -)",
               "echo \"Finished provisioning Apigee...\"",
