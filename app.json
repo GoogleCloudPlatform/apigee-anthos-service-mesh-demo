@@ -17,6 +17,7 @@
               "gcloud compute networks create default --subnet-mode=auto --bgp-routing-mode=regional --mtu=1460 || true",
               "echo \"Provisioning Apigee...\"",
               "echo \"Finished provisioning Apigee...\"",
+              "echo $PWD",
               "RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format=\"get(address)\" --global --project \"$GOOGLE_CLOUD_PROJECT\" --quiet) && sed -i \"s@{SERVER_HOST}@https://eval-group.$RUNTIME_IP.nip.io@\" apigee-asm-demo/specs/productservice.yaml",
               "cp apigee-asm-demo/specs/productservice.yaml apigee-asm-demo/portal/client/productservice.yaml"
           ]
