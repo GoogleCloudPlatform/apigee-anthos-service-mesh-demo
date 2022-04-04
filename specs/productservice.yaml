@@ -1,0 +1,171 @@
+
+openapi: 3.0.2
+info:
+  description: API for managing Product resources.
+  version: 0.0.1
+  title: Products API
+servers:
+- url: {SERVER_URL}/productservice
+security:
+  - ApiKeyAuth: [] 
+paths:
+  /products:
+    get:
+      summary: List 'Product' objects.
+      description: Retrieve a page of 'Product' objects from the server.  Follows
+        the standards for parameters from the [List AIP](  https://aip.dev/132).
+      parameters:
+      - name: pageSize
+        in: query
+        description: Max size of returned list.
+        schema:
+          type: integer
+          default: "25"
+      - name: pageToken
+        in: query
+        description: A page token recieved from the previous list call. Provide this
+          to retrieve the next page.
+        schema:
+          type: string
+      - name: orderBy
+        in: query
+        description: The ordering of the returned list. See the [List Ordering API](
+          https://aip.dev/132) for details on the formatting of this field.
+        schema:
+          type: string
+          default: displayName
+      - name: filter
+        in: query
+        description: Filter that will be used to select Product objects to return.
+          See the [Filtering AIP](https://aip.dev/160) for usage and details on the
+          filtering grammar.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  products:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ListOfProducts'
+    post:
+      summary: Creates a new 'Product' object.
+      description: Creates a new 'Product' object.
+      requestBody:
+        description: The Product object to create.
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "201":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+  /products/{product}:
+    get:
+      summary: Retrieve Product object.
+      description: Retrieve a single Product object.
+      parameters:
+      - name: product
+        in: path
+        required: true
+        description: Unique identifier of the desired Product object.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "404":
+          description: Product was not found.
+    put:
+      summary: Update Product object.
+      description: Update a single Product object.
+      parameters:
+      - name: product
+        in: path
+        required: true
+        description: Unique identifier of the desired Product object.
+        schema:
+          type: string
+      requestBody:
+        description: The Product object to update.
+        required: false
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Product'
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        "404":
+          description: Product was not found.
+    delete:
+      summary: Delete Product object.
+      description: Delete a single Product object.
+      parameters:
+      - name: product
+        in: path
+        required: true
+        description: Unique identifier of the desired Product object.
+        schema:
+          type: string
+      responses:
+        "200":
+          description: Successful response
+        "404":
+          description: Product was not found.
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: apikey
+      in: query
+  schemas:
+    ListOfProducts:
+      title: List of Product objects
+      type: array
+      items:
+        $ref: '#/components/schemas/Product'
+    Product:
+      title: Product
+      type: object
+      properties:
+        categories:
+          description: The categories of the Product
+          type: string
+        description:
+          description: The description of the Product
+          type: string
+          example: Add a modern touch to your outfits with these sleek aviator sunglasses.
+        id:
+          description: The id of the Product
+          type: string
+          example: OLJCESPC7Z
+        name:
+          description: The name of the Product
+          type: string
+          example: Sunglasses
+        picture:
+          description: The picture of the Product
+          type: string
+          example: /static/img/products/sunglasses.jpg
+        priceUsd:
+          description: The priceUsd of the Product
+          type: string

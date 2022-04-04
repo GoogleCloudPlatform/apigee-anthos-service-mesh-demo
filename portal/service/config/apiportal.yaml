@@ -1,0 +1,9 @@
+title: Apigee X React Template
+hideApisWithoutSpecs: true
+apiOverrides:
+  - name: Tyler Product
+    description: Wow!
+    image: https://storage.googleapis.com/cloud-icons/data%2004.png
+  - name: httpbin-product
+    description: wow!
+    image: https://storage.googleapis.com/cloud-icons/data%2004.png

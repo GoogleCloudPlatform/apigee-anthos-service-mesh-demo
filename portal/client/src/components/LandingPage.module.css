@@ -1,0 +1,69 @@
+.docFrame {
+  background-color: #fff;
+  border          : 0px;
+  border-radius   : 2px;
+  box-shadow      : rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  box-sizing      : border-box;
+  padding         : 40px;
+  margin          : 24px 15px 15px 15px;
+  max-width       : 936px;
+}
+
+.docFlexbox {
+  display    : flex;
+  margin-left: 15px;
+  width      : 100%;
+  flex-flow  : row wrap;
+}
+
+.breadcrumbs {
+  font-family          : Roboto, "Noto Sans", "Noto Sans JP", ;
+  font-size            : 13px;
+  color                : rgb(95, 99, 104);
+  grid-gap             : 0 16px;
+  grid-template-areas  : "breadcrumbs ratings";
+  grid-template-columns: 1fr auto;
+  margin               : 0px 16px;
+}
+
+.crumb {
+  margin-right: 10px;
+}
+
+.cardFlexbox {
+  display    : flex;
+  margin-left: 15px;
+  width      : 100%;
+  flex-flow  : row wrap;
+}
+
+.headerText {
+  color        : rgb(32, 33, 36);
+  margin-top   : 25px;
+  margin-bottom: 22px;
+  margin-left  : 15px;
+  font-size    : 32px;
+  line-height  : 44px;
+}
+
+.bookmarkIcon {
+  position     : relative;
+  top          : 3px;
+  left         : 7px;
+  border-radius: 23px;
+  display      : inline-block;
+  padding      : 0px 9px;
+}
+
+.bookmarkIcon:hover {
+  background-color: rgb(241, 243, 244);
+  cursor          : pointer;
+}
+
+.normalText {
+  margin-left : 16px;
+  margin-right: 16px;
+  color       : rgb(32, 33, 36);
+  size        : 16px;
+  font-weight : 400;
+}

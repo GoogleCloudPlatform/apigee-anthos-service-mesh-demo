@@ -1,0 +1,25 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.link:hover {
+  background-color: #eceff1;
+  border-radius: 5px;
+  padding: 5px 5px 5px 0px;
+  cursor: pointer;
+}

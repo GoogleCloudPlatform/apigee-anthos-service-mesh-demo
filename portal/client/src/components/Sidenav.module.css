@@ -1,0 +1,177 @@
+.sidenav {
+  width: 100%;
+  display: block;
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  background-color: #fff;
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  box-sizing: border-box;
+}
+
+.addButton {
+  border-radius: 28px;
+  padding: 16px;
+  height: 52px;
+  margin-bottom: 14px;
+  margin-top: 20px;
+  margin-left: 27px;
+  width: 225px;
+  box-shadow: 0 3px 1px -2px rgb(0 0 0 / 20%), 0 2px 2px 0 rgb(0 0 0 / 14%), 0 1px 5px 0 rgb(0 0 0 / 12%);
+  box-sizing: border-box;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  -webkit-tap-highlight-color: transparent;
+  display: inline-block;
+  white-space: nowrap;
+  text-decoration: none;
+  vertical-align: baseline;
+  text-align: center;
+  min-width: 64px;
+  line-height: normal;
+  overflow: visible;
+  transform: translate3d(0, 0, 0);
+  transition: background 400ms cubic-bezier(0.25, 0.8, 0.25, 1),box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+  font-family: Google Sans,Noto Sans,Noto Sans JP,Noto Sans KR,Noto Naskh Arabic,Noto Sans Thai,Noto Sans Hebrew,Noto Sans Bengali,sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.addIcon {
+  position: relative;
+  left: -36px;
+  top: -2px;
+}
+
+.addText {
+  position: relative;
+  top: -8px;
+  left: -10px;
+}
+
+.appsButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 0 16px;
+  position: relative;
+  height: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 10px 0;
+  color: #4285f4;
+  border-radius: 0 20px 20px 0;
+  height: 40px;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  color: #4285f4;
+  border-radius: 0 20px 20px 0;
+  border-left: 4px solid #4285f4;
+  background-color: #e9f0fe;
+}
+
+.appsButtonText {
+  position: relative;
+  top: -7px;
+  left: 24px;}
+
+.appsIcon {
+  /* line-height: 36px; */
+  margin-top: 10px;
+}
+
+.sectionHeader {
+  margin-top: 25px;
+  background: #f1f3f4;
+  border-bottom: 1px solid #dadce0;
+  border-top: 1px solid #dadce0;
+  padding: 4px 24px 4px;
+}
+
+.sectionHeaderText {
+  font: 500 13px/16px Roboto,Noto Sans,Noto Sans JP,Noto Sans KR,Noto Naskh Arabic,Noto Sans Thai,Noto Sans Hebrew,Noto Sans Bengali,sans-serif;
+  color: rgba(0, 0, 0, 0.65);
+}
+
+/* (A) LIST TO MENU */
+.tree, .section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 14px;
+}
+.tree {
+  margin-top: 5px;
+
+  background: #fbfbfb;
+  /* border: 1px solid #d2d2d2; */
+}
+.tree li {
+  /* border-bottom: 1px solid #d2d2d2; */
+  padding: 5px 5px;
+}
+.tree li:last-child {
+  border: 0;
+}
+
+/* (B) SUB-SECTIONS */
+/* (B1) TOGGLE SHOW/HIDE */
+.section ul { display: none; }
+.section input:checked ~ ul { display: block; }
+
+/* (B2) HIDE CHECKBOX */
+.section input[type=checkbox] { display: none; }
+
+/* (B3) ADD EXPAND/COLLAPSE ICON  */
+.section { 
+  position: relative; 
+  padding-left: 28px !important;
+}
+.section label:after {
+  content: "\25B6";
+  color: black;
+  position: absolute;
+  top: 0; 
+  left: 8px;
+  padding-left: 10px;
+  padding-top: 7px;
+  /* padding: 5px; */
+  text-align: center;
+  font-size: 8px;
+  /* color: #f00; */
+  /* transition: all 0.5s; */
+}
+.section input:checked ~ label:after { 
+  /* color: #23c37a; */
+  transform: rotate(90deg);
+  left: 15px;
+  top: -2px;
+  /* padding-left: 25px; */
+}
+
+/* (B4) SUB-SECTION ITEMS */
+.section ul { margin-top: 10px; }
+/* .section ul li { color: #d43d3d; } */
+
+.treeLink {
+  text-decoration: none;
+  color: black;
+}
+
+.treeLink:hover {
+  background-color: #eceff1;
+  border-radius: 5px;
+  padding: 5px 5px 5px 0px;
+  cursor: pointer;
+}

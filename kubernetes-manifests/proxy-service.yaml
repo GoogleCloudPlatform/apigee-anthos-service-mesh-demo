@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxyservice
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: proxyservice  
+  template: 
+    metadata:
+      name: proxyservice
+      labels:
+        app: proxyservice  
+    spec:
+      containers:
+        - name: envoy
+          image: envoyproxy/envoy:v1.18-latest
+          args: ["--config-path", "/config/envoyconfig.yaml"]
+          resources:
+            requests:
+              memory: "124Mi"
+              cpu: "1000m"
+          ports:
+            - name: grpc
+              containerPort: 10000
+          volumeMounts:
+          - name: config
+            mountPath: "/config"
+            readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: proxyconfig
+            items:
+            - key: "envoyconfig.yaml"
+              path: "envoyconfig.yaml"
+            - key: "proto.pb"
+              path: "proto.pb"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxyservice
+  labels:
+    app: proxyservice
+spec:
+  ports:
+  - port: 10000
+    name: grpc
+  selector:
+    app: proxyservice

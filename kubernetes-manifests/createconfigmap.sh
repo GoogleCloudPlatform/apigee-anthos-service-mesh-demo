@@ -1,0 +1,1 @@
+kubectl create configmap proxyconfig --from-file=config -n istio-ingress

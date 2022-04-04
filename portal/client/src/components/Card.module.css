@@ -1,0 +1,62 @@
+.cardContainer {
+  margin: 10px;
+  height: 235px;
+  width: 33%;
+  max-width: 300px;
+  min-width: 200px;
+  background: #fff;
+  border: 1px solid #e8eaed;
+  border-radius: 10px;
+  position: relative;
+  overflow: scroll;
+}
+
+.cardTopBar {
+  height: 10px;
+  background-color: #34a853;
+}
+
+.cardTitle {
+  margin-left: 20px;
+  margin-top: 20px;
+  font-size: 21px;
+  font-weight: 300;
+}
+
+.cardDivider {
+  height: 1px;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  background: #e8eaed;
+}
+
+.cardFooter {
+  position: absolute;
+  bottom: 5px;
+  width: 100%;
+}
+
+
+.cardBlock {
+  margin-left: 35px;
+  margin-bottom: 3px;
+  color: #1967d2;
+}
+
+.cardBlock:hover {
+  /* background-color: #eceff1; */
+  border-radius: 5px;
+  color: black;
+  /* padding: 5px 5px 5px 0px; */
+  cursor: pointer;
+}
+
+.cardFunction {
+  position: relative;
+  top: -7px;
+  margin-left: 25px;
+  font-size: 13px;
+}

@@ -1,0 +1,40 @@
+{
+  "name": "apigee-service-portal",
+  "options": {
+      "allow-unauthenticated": true,
+      "memory": "512Mi",
+      "cpu": "1",
+      "port": 8080,
+      "http2": false
+  },
+  "hooks": {
+      "prebuild": {
+          "commands": [
+              "echo \"Creating default network...\"",
+              "gcloud compute networks create default --subnet-mode=auto --bgp-routing-mode=regional --mtu=1460",
+              "echo \"Provisioning Apigee...\"",
+              "curl -L https://raw.githubusercontent.com/apigee/devrel/main/tools/apigee-x-trial-provision/apigee-x-trial-provision.sh | bash -",
+              "echo \"Finished provisioning Apigee...\"",
+              "RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format=\"get(address)\" --global --project \"$PROJECT\" --quiet)",
+              "RUNTIME_HOST_ALIAS=\"eval-group\".$(echo \"$RUNTIME_IP\" | tr '.' '-').nip.io",
+              "echo \"$RUNTIME_HOST_ALIAS\"",
+              "echo \"Setting correct Apigee host...\"",
+              "PWD",
+              "sed -i \"s@{SERVER_HOST}@https://eval-group.34-107-135-127.nip.io@\" specs/productservice.yaml",
+              "cp specs/productservice.yaml portal/client/productservice.yaml"
+          ]
+      },
+      "postbuild": {
+          "commands": [
+          ]
+      },
+      "precreate": {
+          "commands": [
+          ]
+      },
+      "postcreate": {
+          "commands": [
+          ]
+      }
+  }
+}

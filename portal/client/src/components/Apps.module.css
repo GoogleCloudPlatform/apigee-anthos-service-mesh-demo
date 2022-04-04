@@ -1,0 +1,16 @@
+
+.cardFlexbox {
+  display: flex;
+  margin-left: 15px;
+  width: 100%;
+  flex-flow: row wrap;
+}
+
+.headerText {
+  color: #5f6368;
+  margin-top: 25px;
+  margin-bottom: 22px;
+  margin-left: 22px;
+  font-size: 35px;
+  line-height: 44px;
+}
