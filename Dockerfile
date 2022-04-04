@@ -8,7 +8,6 @@ RUN npm install
 
 COPY portal/service .
 RUN npm run build
-#COPY client/build ./public
 
 COPY portal/client ./client
 RUN cd client && npm cache clean --force && npm install && npm run build
