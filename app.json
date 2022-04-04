@@ -10,11 +10,13 @@
   "hooks": {
       "prebuild": {
           "commands": [
+              "PROJECT=\"$GOOGLE_CLOUD_PROJECT\"",
               "gcloud config set project \"$GOOGLE_CLOUD_PROJECT\"",
+              "gcloud services enable compute.googleapis.com",
               "echo \"Creating default network...\"",
               "gcloud compute networks create default --subnet-mode=auto --bgp-routing-mode=regional --mtu=1460",
               "echo \"Provisioning Apigee...\"",
-              "curl -L https://raw.githubusercontent.com/apigee/devrel/main/tools/apigee-x-trial-provision/apigee-x-trial-provision.sh | bash -",
+              "$(curl -L https://raw.githubusercontent.com/apigee/devrel/main/tools/apigee-x-trial-provision/apigee-x-trial-provision.sh | bash -)",
               "echo \"Finished provisioning Apigee...\"",
               "RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format=\"get(address)\" --global --project \"$PROJECT\" --quiet)",
               "RUNTIME_HOST_ALIAS=\"eval-group\".$(echo \"$RUNTIME_IP\" | tr '.' '-').nip.io",
