@@ -1,8 +1,11 @@
+# Create the configmap
+./kubernetes-manifests/createconfigmap.sh
+# Deploy the istio-gateway rules and the proxy-service
+kubectl apply -f kubernetes-manifests/istio-gateway.yaml
+kubectl apply -f kubernetes-manifests/proxy-service.yaml
 
-cd portal/client && npm cache clean --force && npm install && npm run build
+# Build and deploy portal
+PROJECT=$(gcloud config get-value project)
+gcloud builds submit --tag eu.gcr.io/$PROJECT/apigee-service-portal
 
-cd ../..
-
-cp -rf portal/client/dist/. portal/service/public
-
-cd portal/service && npm install && npm run build
+# TODO deploy Apigee proxy
