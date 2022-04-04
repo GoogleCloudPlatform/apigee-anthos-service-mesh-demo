@@ -5,7 +5,7 @@ info:
   version: 0.0.1
   title: Products API
 servers:
-- url: "https://eval-group.34-111-105-186.nip.io/productservice"
+- url: https://eval-group.34.111.105.186.nip.io/productservice
 security:
   - ApiKeyAuth: [] 
 paths:
