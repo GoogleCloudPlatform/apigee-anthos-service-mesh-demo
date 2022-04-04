@@ -2,11 +2,10 @@ FROM node:14
 
 WORKDIR /usr/src/app
 
-COPY service/package*.json ./
-
-RUN npm install
+#COPY portal/service/package*.json ./
 
 COPY portal/service .
+RUN npm install
 RUN npm run build
 
 COPY portal/client ./client
