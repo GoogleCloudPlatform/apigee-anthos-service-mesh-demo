@@ -18,11 +18,7 @@
               "echo \"Provisioning Apigee...\"",
               "echo \"Finished provisioning Apigee...\"",
               "export RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format=\"get(address)\" --global --project \"$GOOGLE_CLOUD_PROJECT\" --quiet)",
-              "export RUNTIME_HOST_ALIAS=\"eval-group\".$(echo \"$RUNTIME_IP\" | tr '.' '-').nip.io",
-              "echo \"$RUNTIME_HOST_ALIAS\"",
-              "echo \"Setting correct Apigee host...\"",
-              "PWD",
-              "sed -i \"s@{SERVER_HOST}@https://eval-group.34-107-135-127.nip.io@\" apigee-asm-demo/specs/productservice.yaml",
+              "sed -i \"s@{SERVER_HOST}@https://eval-group.$RUNTIME_IP.nip.io@\" apigee-asm-demo/specs/productservice.yaml",
               "cp apigee-asm-demo/specs/productservice.yaml apigee-asm-demo/portal/client/productservice.yaml"
           ]
       },
