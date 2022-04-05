@@ -1,21 +1,40 @@
-PROJECT=$(gcloud config get-value project)
+#!/bin/bash
 
 echo "Enabling APIs..."
-gcloud services enable compute.googleapis.com
+gcloud services enable cloudbuild.googleapis.com
 
-echo "Create configmap for the proxyservice"
-kubectl create configmap proxyconfig --from-file=kubernetes-manifests/config -n istio-ingress
+if [ -z "$PROJECT" ]
+then
+echo "No PROJECT variable set, trying to use gcloud current project..."
+export PROJECT=$(gcloud config get-value project)
+echo "PROJECT set to $PROJECT"
+fi
 
-echo "Deploy the istio gateway and proxyservice"
-kubectl apply -f kubernetes-manifests/istio-gateway.yaml -n istio-ingress
-kubectl apply -f kubernetes-manifests/proxy-service.yaml -n istio-ingress
+if [ -z "$LOCATION" ]
+then
+echo "No LOCATION variable set, using europe-west1..."
+export LOCATION="europe-west1-c"
+fi
 
+echo "Testing if Apigee X is provisioned..."
 RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format="get(address)" --global --project "$PROJECT" --quiet)
 if [ -z "$RUNTIME_IP" ]
 then
 echo "Provisioning Apigee..."
 curl -L https://raw.githubusercontent.com/apigee/devrel/main/tools/apigee-x-trial-provision/apigee-x-trial-provision.sh | bash -
 fi
+
+echo "Deploying Product Catalog proxy..."
+cd proxy/
+mkdir output
+zip -r output/ProductAPI.zip apiproxy
+cd ..
+wget -r https://github.com/srinandan/apigeecli/releases/download/v1.106/apigeecli_v1.106_Linux_x86_64.zip
+unzip -o apigeecli_v1.106_Linux_x86_64.zip
+cd apigeecli_v1.106_Linux_x86_64
+TOKEN=$(gcloud auth print-access-token)
+./apigeecli apis import -t $TOKEN -f proxy/output -o $PROJECT
+cd ..
 
 echo "Creating OpenAPI spec with correct server URL..."
 RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format="get(address)" --global --project "$PROJECT" --quiet) 
