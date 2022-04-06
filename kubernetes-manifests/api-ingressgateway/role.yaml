@@ -1,4 +1,4 @@
-# Copyright 2018 Google LLC
+# Copyright 2021 Google LLC
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -12,33 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+# Role and RoleBinding allow the gateway to access certificates
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
 metadata:
-  name: api-gateway
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-  - port:
-      number: 8080
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
+  name: api-ingressgateway
+rules:
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get", "watch", "list"]
 ---
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
 metadata:
-  name: api-ingress
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - api-gateway
-  http:
-  - route:
-    - destination:
-        host: proxyservice
-        port:
-          number: 10000
+  name: api-ingressgateway
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: api-ingressgateway
+subjects:
+- kind: ServiceAccount
+  name: api-ingressgateway

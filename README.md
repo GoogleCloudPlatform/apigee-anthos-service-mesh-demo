@@ -17,7 +17,7 @@ Simply run these scripts as needed to deploy ASM, Gateway, and Apigee X with pro
 
 ./2.deploy-gateway.sh # Deploy the gateway configuration to proxy the gRPC services as both gRPC and REST for public consumers
 
-./3. deploy-apigee.sh # Provision an Apigee organization and provide a proxy and developer portal for external developers to access the ProductCatalog service.
+./3.deploy-apigee.sh # Provision an Apigee organization and provide a proxy and developer portal for external developers to access the ProductCatalog service.
 
 ```
 
