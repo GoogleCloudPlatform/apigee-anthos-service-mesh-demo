@@ -2,14 +2,8 @@
 Demo of Apigee X as API management layer on the [Anthos Service Mesh Online Boutique Quickstart Demo](https://cloud.google.com/service-mesh/docs/unified-install/quickstart-asm).
 
 ## Prerequisites
-1. In GCP under **IAM > Organization Policies**, make sure these policies are configured as follows:
-
-* constraints/iam.allowedPolicyMemberDomains should be allow all
-* constraints/compute.requireShieldedVm should be turned off
-* constraints/compute.vmExternalIpAccess should be allow all
-* constraints/compute.requireOsLogin should be not enforced
-
-2. Provision Apigee Org and configure the Environment and Environment group
+1. Provision Apigee Org 
+2. Configure the Environment and Environment group
 
 ### Tools
 
