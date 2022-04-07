@@ -2,27 +2,26 @@
 
 if [ -z "$PROJECT" ]
 then
-echo "No PROJECT variable set, trying to use gcloud current project..."
-export PROJECT=$(gcloud config get-value project)
-echo "PROJECT set to $PROJECT"
+echo "No PROJECT variable set"
+exit
 fi
 
 if [ -z "$LOCATION" ]
 then
-echo "No LOCATION variable set, using europe-west1..."
-export LOCATION="europe-west1-c"
+echo "No LOCATION variable set"
+exit
 fi
 
 if [ -z "$CLUSTERNAME" ]
 then
-echo "No CLUSTERNAME variable set, using 'asm-cluster'"
-export CLUSTERNAME="asm-cluster"
+echo "No CLUSTERNAME variable set"
+exit
 fi
 
 if [ -z "$GATEWAY_NAMESPACE" ]
 then
-echo "No GATEWAY_NAMESPACE variable set, using 'istio-gateway'"
-export GATEWAY_NAMESPACE="istio-gateway"
+echo "No GATEWAY_NAMESPACE variable set"
+exit
 fi
 
 echo "Enabling APIs..."
