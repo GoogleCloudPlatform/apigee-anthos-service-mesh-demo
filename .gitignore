@@ -1,5 +1,7 @@
 asmoutput
 asmcli
+.DS_Store
+proxy/output/
 
 # Logs
 logs
@@ -105,6 +107,3 @@ dist
 
 # TernJS port file
 .tern-port
-
-.DS_Store
-proxy/output/

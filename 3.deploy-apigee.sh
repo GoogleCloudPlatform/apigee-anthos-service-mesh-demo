@@ -39,6 +39,18 @@ echo "No ILB_IP variable set, using example-apigee.com..."
 export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 fi
 
+TOKEN=$(gcloud auth print-access-token)
+TARGETSERVER_NAME=TS-ASM-Demo
+APIPROXY_NAME=ProductAPI
+APIPRODUCT_NAME=ASM-Demo-Product
+APP_NAME=ASM-Demo-App
+
+echo "Installing apigeecli"
+APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/srinandan/apigeecli/releases/latest | jq .'name' -r)
+wget https://github.com/srinandan/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
+
 #echo "Testing if Apigee X is provisioned..."
 #RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format="get(address)" --global --project "$PROJECT" --quiet)
 #if [ -z "$RUNTIME_IP" ]
@@ -53,24 +65,34 @@ mkdir output
 cp -R apiproxy output/
 cd output
 sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/productservice.yaml
-zip -r ProductAPI.zip apiproxy
+zip -r $APIPROXY_NAME.zip apiproxy
 cd ../..
-TOKEN=$(gcloud auth print-access-token)
 
 echo "Configuring Apigee Targetserver..."
-apigeecli targetservers get --name TS-ASM-Demo --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+./apigeecli/apigeecli targetservers get --name $ --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 if [ $? -eq 0 ]
 then
     echo "Updating Target server"
-    apigeecli targetservers update --name TS-ASM-Demo --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+    ./apigeecli/apigeecli targetservers update --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 else
     echo "Creating Target server"
-    apigeecli targetservers create --name TS-ASM-Demo --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+    ./apigeecli/apigeecli targetservers create --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 fi
 
 echo "Importing and Deploying Apigee proxy..."
-REV=$(apigeecli apis import -f proxy/output/ProductAPI.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-apigeecli apis deploy-wait --name ProductAPI --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+REV=$(./apigeecli/apigeecli apis import -f proxy/output/$APIPROXY_NAME.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+./apigeecli/apigeecli apis deploy-wait --name $APIPROXY_NAME --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+
+echo "Creating API Product"
+./apigeecli/apigeecli products create --name $APIPRODUCT_NAME --displayname $APIPRODUCT_NAME --proxies $APIPROXY_NAME --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
+
+echo "Creating Developer"
+./apigeecli/apigeecli developers create --user testuser --email testuser@acme.com --first Test --last User --org $PROJECT --token $TOKEN
+
+echo "Creating Developer App"
+./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods $APIPRODUCT_NAME --org $PROJECT --token $TOKEN
+
+APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 
 #echo "Creating OpenAPI spec with correct server URL..."
 #RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format="get(address)" --global --project "$PROJECT" --quiet) 
@@ -82,4 +104,7 @@ apigeecli apis deploy-wait --name ProductAPI --ovr --rev $REV --org $PROJECT --e
 #gcloud run deploy apigee-service-portal --image eu.gcr.io/$PROJECT/apigee-service-portal --platform managed --project $PROJECT \
 #  --region europe-west1 --allow-unauthenticated
 
-rm -rf proxy/output
+echo "Proxy deploy"
+echo "Run curl https://$APIGEE_HOST/productservice/products?apikey=$APIKEY to get the list of products"
+
+rm -rf proxy/output apigeecli
