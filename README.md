@@ -14,7 +14,8 @@ Demo of Apigee X as API management layer on the [Anthos Service Mesh Online Bout
 ## Deploy
 
 - Open Cloud Shell
-
+- Clone this repo `git clone https://github.com/ssvaidyanathan/apigee-asm-demo.git`
+- `cd apigee-asm-demo`
 - Set the following variables
 
 ```bash
