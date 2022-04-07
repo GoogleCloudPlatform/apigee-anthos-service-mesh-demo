@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<OASValidation continueOnError="false" enabled="true" name="OpenAPI-Spec-Validation-1">
-  <DisplayName>OpenAPI Spec Validation-1</DisplayName>
+<OASValidation continueOnError="false" enabled="true" name="OAS-ValidateRequest">
+  <DisplayName>OAS-ValidateRequest</DisplayName>
   <Properties/>
   <Source>request</Source>
   <OASResource>oas://productservice.yaml</OASResource>

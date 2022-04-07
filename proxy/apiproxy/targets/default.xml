@@ -13,7 +13,12 @@
     <Request/>
     <Response/>
   </PostFlow>
-  <HTTPTargetConnection>
+  <!--<HTTPTargetConnection>
     <URL>http://35.187.179.99:8080</URL>
-  </HTTPTargetConnection>
+  </HTTPTargetConnection>-->
+  <HTTPTargetConnection>
+      <LoadBalancer>
+          <Server name="TS-ASM-Demo"/>
+      </LoadBalancer>
+    </HTTPTargetConnection>
 </TargetEndpoint>

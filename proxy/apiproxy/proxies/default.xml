@@ -9,7 +9,7 @@
                 <Name>remove-query-param-apikey</Name>
             </Step>
             <Step>
-                <Name>OpenAPI-Spec-Validation-1</Name>
+                <Name>OAS-ValidateRequest</Name>
             </Step>
         </Request>
         <Response/>

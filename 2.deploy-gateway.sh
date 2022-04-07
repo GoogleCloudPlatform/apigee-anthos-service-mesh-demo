@@ -19,10 +19,10 @@ echo "No CLUSTERNAME variable set, using 'asm-cluster'"
 export CLUSTERNAME="asm-cluster"
 fi
 
-if [ -z "$GATEWAY_NAMESPACE" ]
+if [ -z "$API_GATEWAY_NAMESPACE" ]
 then
-echo "No GATEWAY_NAMESPACE variable set, using 'api-ingress'"
-export GATEWAY_NAMESPACE="api-ingress"
+echo "No API_GATEWAY_NAMESPACE variable set, using 'api-ingress'"
+export API_GATEWAY_NAMESPACE="api-ingress"
 fi
 
 echo "Enabling APIs..."
@@ -35,14 +35,14 @@ gcloud container clusters get-credentials $CLUSTERNAME \
 kubectl config set-context $CLUSTERNAME
 
 echo "Create namespace"
-kubectl create namespace $GATEWAY_NAMESPACE
+kubectl create namespace $API_GATEWAY_NAMESPACE
 
 ASM_VERSION=$(kubectl get deploy -n istio-system -l app=istiod -o jsonpath={.items[*].metadata.labels.'istio\.io\/rev'}'{"\n"}')
-kubectl label namespace $GATEWAY_NAMESPACE istio.io/rev=$ASM_VERSION --overwrite
+kubectl label namespace $API_GATEWAY_NAMESPACE istio.io/rev=$ASM_VERSION --overwrite
 
 echo "Create configmap for the proxyservice"
-kubectl create configmap proxyconfig --from-file=kubernetes-manifests/config -n $GATEWAY_NAMESPACE
+kubectl create configmap proxyconfig --from-file=kubernetes-manifests/config -n $API_GATEWAY_NAMESPACE
 
 echo "Creating Ingress Gateway for the APIs "
-kubectl apply -f kubernetes-manifests/api-ingressgateway/. -n $GATEWAY_NAMESPACE
+kubectl apply -f kubernetes-manifests/api-ingressgateway/. -n $API_GATEWAY_NAMESPACE
 
