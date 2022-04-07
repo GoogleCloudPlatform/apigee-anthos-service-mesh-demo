@@ -13,7 +13,9 @@ Demo of Apigee X as API management layer on the [Anthos Service Mesh Online Bout
 
 ## Deploy
 
-Set the following variables
+- Open Cloud Shell
+
+- Set the following variables
 
 ```bash
 
@@ -27,7 +29,7 @@ export APIGEE_ENV="your-apigee-env" # For example "eval"
 
 ```
 
-Simply run these scripts as needed to deploy ASM, Gateway, and Apigee X with proxies and a developer portal.
+- Simply run these scripts as needed to deploy ASM, Gateway, and Apigee X with proxies and a developer portal.
 
 ```bash
 ./1.deploy-asm.sh # Deploy ASM with the Online Boutique app as described here: https://cloud.google.com/service-mesh/docs/unified-install/quickstart-asm
