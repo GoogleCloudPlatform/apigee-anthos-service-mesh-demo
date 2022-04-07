@@ -36,7 +36,7 @@ After deploying you should be able to send test requests to the services with ei
 From a GCE VM within the same VPC
 ```bash
 
-export ILB_IP=$(kubectl get services api-ingressgateway -n $GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 
 grpcurl -plaintext -proto pb/demo.proto $ILB_IP hipstershop.ProductCatalogService/ListProducts # gRPC call to get product catalog data
 
