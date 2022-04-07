@@ -18,6 +18,21 @@ Demo of Apigee X as API management layer on the [Anthos Service Mesh Online Bout
 * apigeecli
 
 ## Deploy
+
+Set the following variables
+
+```bash
+
+export PROJECT=$(gcloud config get-value project)
+export LOCATION="your-cluster-zone" # For example "us-west1-a"
+export CLUSTERNAME="your-cluster-name" # For example "asm-cluster"
+export GATEWAY_NAMESPACE="istio-gateway"
+export API_GATEWAY_NAMESPACE="api-ingress"
+export APIGEE_HOST="your-apigee-host" # For example "example-apigee.com"
+export APIGEE_ENV="your-apigee-env" # For example "eval"
+
+```
+
 Simply run these scripts as needed to deploy ASM, Gateway, and Apigee X with proxies and a developer portal.
 
 ```bash
