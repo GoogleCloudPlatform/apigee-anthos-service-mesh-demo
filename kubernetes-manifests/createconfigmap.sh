@@ -1,1 +1,1 @@
-kubectl create configmap proxyconfig --from-file=config -n istio-ingress
+kubectl create configmap proxyconfig --from-file=kubernetes-manifests/config -n $API_GATEWAY_NAMESPACE
