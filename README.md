@@ -33,6 +33,9 @@ export APIGEE_ENV="your-apigee-env" # For example "eval"
 - Simply run these scripts as needed to deploy ASM, Gateway, and Apigee X with proxies and a developer portal.
 
 ```bash
+
+./0.create-gke-cluster.sh # Create a GKE cluster if you dont have one
+
 ./1.deploy-asm.sh # Deploy ASM with the Online Boutique app as described here: https://cloud.google.com/service-mesh/docs/unified-install/quickstart-asm
 
 ./2.deploy-gateway.sh # Deploy the gateway configuration to proxy the gRPC services as both gRPC and REST for public consumers

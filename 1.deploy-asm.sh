@@ -28,13 +28,13 @@ echo "Enabling APIs..."
 gcloud services enable compute.googleapis.com
 gcloud services enable container.googleapis.com
 
-echo "Creating cluster..."
-gcloud container clusters create $CLUSTERNAME \
-    --project=$PROJECT \
-    --zone=$LOCATION \
-    --machine-type=e2-standard-4 \
-    --num-nodes=2 \
-    --workload-pool=$PROJECT.svc.id.goog
+#echo "Creating cluster..."
+#gcloud container clusters create $CLUSTERNAME \
+    #--project=$PROJECT \
+    #--zone=$LOCATION \
+    #--machine-type=e2-standard-4 \
+    #--num-nodes=2 \
+    #--workload-pool=$PROJECT.svc.id.goog
 
 gcloud container clusters get-credentials $CLUSTERNAME \
 --project=$PROJECT \
