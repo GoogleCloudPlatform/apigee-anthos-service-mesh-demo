@@ -43,7 +43,7 @@ gcloud container clusters get-credentials $CLUSTERNAME \
 kubectl config set-context $CLUSTERNAME
 
 echo "Installing ASM..."
-curl https://storage.googleapis.com/csm-artifacts/asm/asmcli_1.13 > asmcli
+curl -s https://storage.googleapis.com/csm-artifacts/asm/asmcli_1.13 > asmcli
 chmod +x asmcli
 
 sleep 5s
