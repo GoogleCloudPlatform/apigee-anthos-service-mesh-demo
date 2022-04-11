@@ -26,10 +26,6 @@ echo "No GATEWAY_NAMESPACE variable set"
 exit
 fi
 
-echo "Enabling APIs..."
-gcloud services enable compute.googleapis.com
-gcloud services enable container.googleapis.com
-
 #echo "Creating cluster..."
 #gcloud container clusters create $CLUSTERNAME \
     #--project=$PROJECT \

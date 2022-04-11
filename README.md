@@ -21,6 +21,8 @@ Demo of Apigee X as API management layer on the [Anthos Service Mesh Online Bout
 ```bash
 
 export PROJECT=$(gcloud config get-value project)
+export NETWORK="your-vpc-name" # For example "default"
+export SUBNETWORK="your-subnet-name" # For example "default"
 export LOCATION="your-cluster-zone" # For example "us-west1-a"
 export CLUSTERNAME="your-cluster-name" # For example "asm-cluster"
 export GATEWAY_NAMESPACE="istio-gateway"

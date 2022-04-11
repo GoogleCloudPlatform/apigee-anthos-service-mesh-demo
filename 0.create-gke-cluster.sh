@@ -8,6 +8,18 @@ echo "No PROJECT variable set"
 exit
 fi
 
+if [ -z "$NETWORK" ]
+then
+echo "No NETWORK variable set"
+exit
+fi
+
+if [ -z "$SUBNETWORK" ]
+then
+echo "No SUBNETWORK variable set"
+exit
+fi
+
 if [ -z "$LOCATION" ]
 then
 echo "No LOCATION variable set"
@@ -36,4 +48,6 @@ gcloud container clusters create $CLUSTERNAME \
     --zone=$LOCATION \
     --machine-type=e2-standard-4 \
     --num-nodes=2 \
-    --workload-pool=$PROJECT.svc.id.goog
+    --workload-pool=$PROJECT.svc.id.goog \
+    --network=$NETWORK \
+    --subnetwork=$SUBNETWORK
