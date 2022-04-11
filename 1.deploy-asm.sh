@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 if [ -z "$PROJECT" ]
 then
 echo "No PROJECT variable set"

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 #echo "Enabling APIs..."
 #gcloud services enable cloudbuild.googleapis.com
 
