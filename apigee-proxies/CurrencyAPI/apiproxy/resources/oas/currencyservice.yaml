@@ -13,14 +13,6 @@ paths:
     get:
       summary: List 'Currency' objects.
       description: Retrieve a list of 'Currency' objects from the server.
-      parameters:
-      - name: filter
-        in: query
-        description: Filter that will be used to select Currency objects to return.
-          See the [Filtering AIP](https://aip.dev/160) for usage and details on the
-          filtering grammar.
-        schema:
-          type: string
       responses:
         "200":
           description: Successful response

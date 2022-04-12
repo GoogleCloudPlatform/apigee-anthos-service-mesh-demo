@@ -14,33 +14,6 @@ paths:
       summary: List 'Product' objects.
       description: Retrieve a page of 'Product' objects from the server.  Follows
         the standards for parameters from the [List AIP](  https://aip.dev/132).
-      parameters:
-      - name: pageSize
-        in: query
-        description: Max size of returned list.
-        schema:
-          type: integer
-          default: "25"
-      - name: pageToken
-        in: query
-        description: A page token recieved from the previous list call. Provide this
-          to retrieve the next page.
-        schema:
-          type: string
-      - name: orderBy
-        in: query
-        description: The ordering of the returned list. See the [List Ordering API](
-          https://aip.dev/132) for details on the formatting of this field.
-        schema:
-          type: string
-          default: displayName
-      - name: filter
-        in: query
-        description: Filter that will be used to select Product objects to return.
-          See the [Filtering AIP](https://aip.dev/160) for usage and details on the
-          filtering grammar.
-        schema:
-          type: string
       responses:
         "200":
           description: Successful response
