@@ -16,6 +16,8 @@ syntax = "proto3";
 
 package hipstershop;
 
+import "google/api/annotations.proto";
+
 // -----------------Cart service-----------------
 
 service CartService {
@@ -67,7 +69,11 @@ message ListRecommendationsResponse {
 // ---------------Product Catalog----------------
 
 service ProductCatalogService {
-    rpc ListProducts(Empty) returns (ListProductsResponse) {}
+    rpc ListProducts(Empty) returns (ListProductsResponse) {
+            option (google.api.http) = {
+            get: "/products"
+        };
+    }
     rpc GetProduct(GetProductRequest) returns (Product) {}
     rpc SearchProducts(SearchProductsRequest) returns (SearchProductsResponse) {}
 }
@@ -136,7 +142,11 @@ message Address {
 // -----------------Currency service-----------------
 
 service CurrencyService {
-    rpc GetSupportedCurrencies(Empty) returns (GetSupportedCurrenciesResponse) {}
+    rpc GetSupportedCurrencies(Empty) returns (GetSupportedCurrenciesResponse) {
+            option (google.api.http) = {
+            get: "/currencies"
+        };
+    }
     rpc Convert(CurrencyConversionRequest) returns (Money) {}
 }
 

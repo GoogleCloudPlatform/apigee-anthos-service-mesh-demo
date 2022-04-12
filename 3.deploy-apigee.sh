@@ -41,7 +41,6 @@ fi
 
 TOKEN=$(gcloud auth print-access-token)
 TARGETSERVER_NAME=TS-ASM-Demo
-APIPROXY_NAME=ProductAPI
 APIPRODUCT_NAME=ASM-Demo-Product
 APP_NAME=ASM-Demo-App
 
@@ -60,13 +59,22 @@ mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 #fi
 
 echo "Deploying Apigee artifacts..."
-cd proxy/
+cd apigee-proxies/
 mkdir output
-cp -R apiproxy output/
+cp -R *API output/
 cd output
+
+cd ProductAPI
 sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/productservice.yaml
-zip -r $APIPROXY_NAME.zip apiproxy
-cd ../..
+zip -r ../ProductAPI.zip apiproxy
+
+cd ..
+
+cd CurrencyAPI
+sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/currencyservice.yaml
+zip -r ../CurrencyAPI.zip apiproxy
+
+cd ../../..
 
 echo "Configuring Apigee Targetserver..."
 ./apigeecli/apigeecli targetservers get --name $ --org $PROJECT --env $APIGEE_ENV --token $TOKEN
@@ -79,12 +87,16 @@ else
     ./apigeecli/apigeecli targetservers create --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 fi
 
-echo "Importing and Deploying Apigee proxy..."
-REV=$(./apigeecli/apigeecli apis import -f proxy/output/$APIPROXY_NAME.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-./apigeecli/apigeecli apis deploy-wait --name $APIPROXY_NAME --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+echo "Importing and Deploying Apigee Products proxy..."
+REV=$(./apigeecli/apigeecli apis import -f apigee-proxies/output/ProductAPI.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+./apigeecli/apigeecli apis deploy-wait --name ProductAPI --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+
+echo "Importing and Deploying Apigee Currency proxy..."
+REV=$(./apigeecli/apigeecli apis import -f apigee-proxies/output/CurrencyAPI.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+./apigeecli/apigeecli apis deploy-wait --name CurrencyAPI --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name $APIPRODUCT_NAME --displayname $APIPRODUCT_NAME --proxies $APIPROXY_NAME --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli products create --name $APIPRODUCT_NAME --displayname $APIPRODUCT_NAME --proxies ProductAPI --proxies CurrencyAPI --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
 
 echo "Creating Developer"
 ./apigeecli/apigeecli developers create --user testuser --email testuser@acme.com --first Test --last User --org $PROJECT --token $TOKEN
@@ -106,5 +118,6 @@ APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token 
 
 echo "Proxy deploy"
 echo "Run curl https://$APIGEE_HOST/productservice/products?apikey=$APIKEY to get the list of products"
+echo "Run curl https://$APIGEE_HOST/currencyservice/currencies?apikey=$APIKEY to get the list of currencies"
 
-rm -rf proxy/output apigeecli
+rm -rf apigee-proxies/output apigeecli*
