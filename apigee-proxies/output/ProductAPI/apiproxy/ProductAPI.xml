@@ -1,0 +1,22 @@
+<APIProxy revision="3" name="ProductAPI">
+    <DisplayName></DisplayName>
+    <Description>API for managing Product resources.</Description>
+    <CreatedAt>1649064409904</CreatedAt>
+    <LastModifiedAt>1649064409904</LastModifiedAt>
+    <BasePaths>/productservice</BasePaths>
+    <Policies>
+        <Policy>verify-api-key</Policy>
+        <Policy>remove-query-param-apikey</Policy>
+        <Policy>add-cors</Policy>
+        <Policy>OAS-ValidateRequest</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>oas://productservice.yaml</Resource>
+    </Resources>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>
