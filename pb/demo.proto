@@ -147,7 +147,12 @@ service CurrencyService {
             get: "/currencies"
         };
     }
-    rpc Convert(CurrencyConversionRequest) returns (Money) {}
+    rpc Convert(CurrencyConversionRequest) returns (Money) {
+           option (google.api.http) = {
+           post: "/convert"
+           body: "money"
+        }; 
+    }
 }
 
 // Represents an amount of money with its currency type.
