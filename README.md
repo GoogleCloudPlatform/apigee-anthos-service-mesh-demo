@@ -66,5 +66,7 @@ For the Apigee endpoint:
 ```bash
 
 curl https://{APIGEE_HOST}/productservice/products?apikey=aafddfsfdss2kjj3k2jl3jkl2jl323 # REST API secured with an API key in Apigee
+curl https://{APIGEE_HOST}/currencyservice/currencies?apikey=aafddfsfdss2kjj3k2jl3jkl2jl323 # REST API secured with an API key in Apigee
+
 
 ```
