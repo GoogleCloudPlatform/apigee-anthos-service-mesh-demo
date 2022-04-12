@@ -91,18 +91,22 @@ echo "Importing and Deploying Apigee Products proxy..."
 REV=$(./apigeecli/apigeecli apis import -f apigee-proxies/output/ProductAPI.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
 ./apigeecli/apigeecli apis deploy-wait --name ProductAPI --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
+echo "Creating API Product"
+./apigeecli/apigeecli products create --name ProductServices --displayname "Product Services" --proxies ProductAPI --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
+
+
 echo "Importing and Deploying Apigee Currency proxy..."
 REV=$(./apigeecli/apigeecli apis import -f apigee-proxies/output/CurrencyAPI.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
 ./apigeecli/apigeecli apis deploy-wait --name CurrencyAPI --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name $APIPRODUCT_NAME --displayname $APIPRODUCT_NAME --proxies ProductAPI --proxies CurrencyAPI --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli products create --name CurrencyServices --displayname "Currency Services" --proxies CurrencyAPI --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
 
 echo "Creating Developer"
 ./apigeecli/apigeecli developers create --user testuser --email testuser@acme.com --first Test --last User --org $PROJECT --token $TOKEN
 
 echo "Creating Developer App"
-./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods $APIPRODUCT_NAME --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods ProductServices --prods CurrencyServices --org $PROJECT --token $TOKEN
 
 APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 
