@@ -26,6 +26,12 @@
             <Response/>
             <Condition>(proxy.pathsuffix MatchesPath "/currencies") and (request.verb = "GET")</Condition>
         </Flow>
+        <Flow name="post /convert">
+            <Description>Currency Conversion</Description>
+            <Request/>
+            <Response/>
+            <Condition>(proxy.pathsuffix MatchesPath "/convert") and (request.verb = "POST")</Condition>
+        </Flow>
     </Flows>
     <PostFlow name="PostFlow">
         <Request/>
