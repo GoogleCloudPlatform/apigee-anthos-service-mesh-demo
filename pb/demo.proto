@@ -150,7 +150,7 @@ service CurrencyService {
     rpc Convert(CurrencyConversionRequest) returns (Money) {
            option (google.api.http) = {
            post: "/convert"
-           body: "money"
+           body: "currencyConversionRequest"
         }; 
     }
 }
