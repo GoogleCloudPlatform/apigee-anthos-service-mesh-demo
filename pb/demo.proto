@@ -150,7 +150,7 @@ service CurrencyService {
     rpc Convert(CurrencyConversionRequest) returns (Money) {
            option (google.api.http) = {
            post: "/convert"
-           body: "currencyConversionRequest"
+           body: "*"
         }; 
     }
 }
@@ -177,6 +177,8 @@ message GetSupportedCurrenciesResponse {
     // The 3-letter currency code defined in ISO 4217.
     repeated string currency_codes = 1;
 }
+
+
 
 message CurrencyConversionRequest {
     Money from = 1;
