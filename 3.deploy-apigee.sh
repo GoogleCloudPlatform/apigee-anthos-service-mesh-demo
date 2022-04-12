@@ -77,7 +77,7 @@ zip -r ../CurrencyAPI.zip apiproxy
 cd ../../..
 
 echo "Configuring Apigee Targetserver..."
-./apigeecli/apigeecli targetservers get --name $ --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+./apigeecli/apigeecli targetservers get --name $TARGETSERVER_NAME --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 if [ $? -eq 0 ]
 then
     echo "Updating Target server"
