@@ -50,7 +50,7 @@ unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
 mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
 echo "Deleting Developer App"
-DEVELOPER_ID=$(./apigeecli/apigeecli developers get --email testuser@acme.com --org $PROJECT --token $TOKEN | jq .'.developerId' -r)
+DEVELOPER_ID=$(./apigeecli/apigeecli developers get --email testuser@acme.com --org $PROJECT --token $TOKEN | jq .'developerId' -r)
 ./apigeecli/apigeecli apps delete --id $DEVELOPER_ID --name $APP_NAME --org $PROJECT --token $TOKEN
 
 echo "Deleting Developer"
