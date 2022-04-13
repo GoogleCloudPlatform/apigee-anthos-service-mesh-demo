@@ -61,14 +61,14 @@ echo "Deleting API Products"
 ./apigeecli/apigeecli products delete --name Products-v1 --org $PROJECT --token $TOKEN
 
 echo "Undeploying Currency-v1"
-REV=$(./apigeecli/apigeecli envs deployments get -e $APIGEE_ENV --org $PROJECT --token $TOKEN | jq .'deployments[]| select(.apiProxy=="Currency-v1").revision' -r)
+REV=$(./apigeecli/apigeecli envs deployments get --env $APIGEE_ENV --org $PROJECT --token $TOKEN | jq .'deployments[]| select(.apiProxy=="Currency-v1").revision' -r)
 ./apigeecli/apigeecli apis undeploy --name Currency-v1 --env $APIGEE_ENV --rev $REV --org $PROJECT --token $TOKEN
 
 echo "Deleting proxy Currency-v1"
 ./apigeecli/apigeecli apis delete --name Currency-v1 --org $PROJECT --token $TOKEN
 
 echo "Undeploying Products-v1"
-REV=$(./apigeecli/apigeecli envs deployments get -e $APIGEE_ENV --org $PROJECT --token $TOKEN | jq .'deployments[]| select(.apiProxy=="Products-v1").revision' -r)
+REV=$(./apigeecli/apigeecli envs deployments get --env $APIGEE_ENV --org $PROJECT --token $TOKEN | jq .'deployments[]| select(.apiProxy=="Products-v1").revision' -r)
 ./apigeecli/apigeecli apis undeploy --name Products-v1 --env $APIGEE_ENV --rev $REV --org $PROJECT --token $TOKEN
 
 echo "Deleting proxy Products-v1"
