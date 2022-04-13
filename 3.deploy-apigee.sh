@@ -62,8 +62,8 @@ echo "Deploying Apigee artifacts..."
 cd apigee
 mkdir output
 cd output
-cp -R ../proxies/ .
-cp -R ../sharedflows/ .
+cp -R ../proxies/* .
+cp -R ../sharedflows/* .
 
 cd Products-v1
 sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/productservices.yaml
@@ -92,7 +92,11 @@ else
     ./apigeecli/apigeecli targetservers create --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 fi
 
-echo "Importing and Deploying Apigee Products proxy..."
+echo "Importing and Deploying Security Sharedflow"
+REV=$(./apigeecli/apigeecli sharedflows import -f apigee/output/SF-Security-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+./apigeecli/apigeecli sharedflows deploy --name SF-Security-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+
+echo "Importing and Deploying Apigee Products-v1 proxy..."
 REV=$(./apigeecli/apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
 ./apigeecli/apigeecli apis deploy-wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
@@ -100,7 +104,7 @@ echo "Creating API Product"
 ./apigeecli/apigeecli products create --name Products-v1 --displayname "Products Services v1" --proxies Products-v1 --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
 
 
-echo "Importing and Deploying Apigee Currency proxy..."
+echo "Importing and Deploying Apigee Currency-v1 proxy..."
 REV=$(./apigeecli/apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
 ./apigeecli/apigeecli apis deploy-wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
