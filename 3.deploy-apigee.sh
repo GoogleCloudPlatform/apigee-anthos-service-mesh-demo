@@ -41,7 +41,6 @@ fi
 
 TOKEN=$(gcloud auth print-access-token)
 TARGETSERVER_NAME=TS-ASM-Demo
-APIPRODUCT_NAME=ASM-Demo-Product
 APP_NAME=ASM-Demo-App
 
 echo "Installing apigeecli"
