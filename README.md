@@ -70,3 +70,26 @@ curl https://{APIGEE_HOST}/currencyservice/currencies?apikey=aafddfsfdss2kjj3k2j
 
 
 ```
+
+## Cleanup
+
+- Set the following variables
+```bash
+
+export PROJECT=$(gcloud config get-value project)
+export NETWORK="your-vpc-name" # For example "default"
+export SUBNETWORK="your-subnet-name" # For example "default"
+export LOCATION="your-cluster-zone" # For example "us-west1-a"
+export CLUSTERNAME="your-cluster-name" # For example "asm-cluster"
+export GATEWAY_NAMESPACE="istio-gateway"
+export API_GATEWAY_NAMESPACE="api-ingress"
+export APIGEE_HOST="your-apigee-host" # For example "example-apigee.com"
+export APIGEE_ENV="your-apigee-env" # For example "eval"
+
+```
+
+Execute 
+* `4.cleanup-apigee.sh` to cleanup all Apigee artifacts (apps, products, proxies, sharedflow, etc)
+* `5.cleanup-gateway.sh` to cleanup all the API Gateway services from the cluster
+* `6.cleanup-asm.sh` to cleanup ASM from the cluster
+* `7.delete-gke-cluster.sh` to delete the GKE cluster
