@@ -83,3 +83,5 @@ echo "Deleting sharedflow SF-Security-v1"
 
 echo "Deleting Target Server"
 ./apigeecli/apigeecli targetservers delete --name $TARGETSERVER_NAME --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+
+rm -rf apigeecli*
