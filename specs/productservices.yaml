@@ -5,7 +5,7 @@ info:
   version: 0.0.1
   title: Products API
 servers:
-- url: "{SERVER_URL}/v1/productservices"
+- url: "https://34.117.135.82.nip.io/v1/productservices"
 security:
   - ApiKeyAuth: [] 
 paths:

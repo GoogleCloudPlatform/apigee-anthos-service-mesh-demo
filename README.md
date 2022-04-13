@@ -9,6 +9,7 @@ Demo of Apigee X as API management layer on the [Anthos Service Mesh Online Bout
 
 * [gcloud SDK](https://cloud.google.com/sdk/docs/install)
 * curl
+* jq
 * [apigeecli](https://github.com/srinandan/apigeecli#installation)
 
 ## Deploy
