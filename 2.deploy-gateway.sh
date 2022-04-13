@@ -32,7 +32,7 @@ gcloud container clusters get-credentials $CLUSTERNAME \
 
 kubectl config set-context $CLUSTERNAME
 
-kubectl delete services frontend-external -n frontend #this service is not needed for this demo
+#kubectl delete services frontend-external -n frontend #this service is not needed for this demo
 
 echo "Create namespace"
 kubectl create namespace $API_GATEWAY_NAMESPACE
