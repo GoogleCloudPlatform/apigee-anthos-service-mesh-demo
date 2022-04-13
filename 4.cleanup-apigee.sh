@@ -35,7 +35,7 @@ fi
 
 if [ -z "$ILB_IP" ]
 then
-echo "No ILB_IP variable set, using example-apigee.com..."
+echo "No ILB_IP variable set"
 export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
 fi
 
