@@ -1,7 +1,7 @@
 asmoutput
 asmcli
 .DS_Store
-apigee-proxies/output/
+apigee/output/
 
 # Logs
 logs
