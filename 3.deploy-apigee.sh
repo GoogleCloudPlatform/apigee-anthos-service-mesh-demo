@@ -59,22 +59,27 @@ mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 #fi
 
 echo "Deploying Apigee artifacts..."
-cd apigee-proxies/
+cd apigee
 mkdir output
-cp -R *API output/
 cd output
+cp -R ../proxies/ .
+cp -R ../sharedflows/ .
 
-cd ProductAPI
-sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/productservice.yaml
-zip -r ../ProductAPI.zip apiproxy
+cd Products-v1
+sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/productservices.yaml
+zip -r ../Products-v1.zip apiproxy
 
 cd ..
 
-cd CurrencyAPI
-sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/currencyservice.yaml
-zip -r ../CurrencyAPI.zip apiproxy
+cd Currency-v1
+sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/currencyservices.yaml
+zip -r ../Currency-v1.zip apiproxy
 
-cd ../../..
+cd ..
+cd SF-Security-v1/
+zip -r ../SF-Security-v1.zip sharedflowbundle
+
+cd ../../../
 
 echo "Configuring Apigee Targetserver..."
 ./apigeecli/apigeecli targetservers get --name $TARGETSERVER_NAME --org $PROJECT --env $APIGEE_ENV --token $TOKEN
@@ -88,25 +93,25 @@ else
 fi
 
 echo "Importing and Deploying Apigee Products proxy..."
-REV=$(./apigeecli/apigeecli apis import -f apigee-proxies/output/ProductAPI.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-./apigeecli/apigeecli apis deploy-wait --name ProductAPI --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+REV=$(./apigeecli/apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+./apigeecli/apigeecli apis deploy-wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name ProductServices --displayname "Product Services" --proxies ProductAPI --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli products create --name Products-v1 --displayname "Products Services v1" --proxies Products-v1 --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
 
 
 echo "Importing and Deploying Apigee Currency proxy..."
-REV=$(./apigeecli/apigeecli apis import -f apigee-proxies/output/CurrencyAPI.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-./apigeecli/apigeecli apis deploy-wait --name CurrencyAPI --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+REV=$(./apigeecli/apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+./apigeecli/apigeecli apis deploy-wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name CurrencyServices --displayname "Currency Services" --proxies CurrencyAPI --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
 
 echo "Creating Developer"
 ./apigeecli/apigeecli developers create --user testuser --email testuser@acme.com --first Test --last User --org $PROJECT --token $TOKEN
 
 echo "Creating Developer App"
-./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods ProductServices --prods CurrencyServices --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods Products-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
 
 APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 
@@ -121,7 +126,7 @@ APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token 
 #  --region europe-west1 --allow-unauthenticated
 
 echo "Proxy deploy"
-echo "Run curl https://$APIGEE_HOST/productservice/products?apikey=$APIKEY to get the list of products"
-echo "Run curl https://$APIGEE_HOST/currencyservice/currencies?apikey=$APIKEY to get the list of currencies"
+echo "Run curl https://$APIGEE_HOST/v1/productservices/products?apikey=$APIKEY to get the list of products"
+echo "Run curl https://$APIGEE_HOST/v1/currencyservices/currencies?apikey=$APIKEY to get the list of currencies"
 
-rm -rf apigee-proxies/output apigeecli*
+rm -rf apigee/output apigeecli*

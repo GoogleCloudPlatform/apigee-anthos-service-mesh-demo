@@ -1,0 +1,14 @@
+<SharedFlowBundle revision="1" name="SF-Security-v1">
+    <DisplayName></DisplayName>
+    <Description>Security Sharedflow</Description>
+    <CreatedAt>1649875313358</CreatedAt>
+    <LastModifiedAt>1649875405601</LastModifiedAt>
+    <Policies>
+        <Policy>VAK-VerifyAPIKey</Policy>
+        <Policy>AM-RemoveAPIKey</Policy>
+    </Policies>
+    <SharedFlows>
+        <SharedFlow>default</SharedFlow>
+    </SharedFlows>
+    <subType>SharedFlow</subType>
+</SharedFlowBundle>

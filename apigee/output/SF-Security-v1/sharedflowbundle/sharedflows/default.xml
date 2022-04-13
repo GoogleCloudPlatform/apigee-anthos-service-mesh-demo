@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<SharedFlow name="default">
+    <Step>
+        <Name>VAK-VerifyAPIKey</Name>
+    </Step>
+    <Step>
+        <Name>AM-RemoveAPIKey</Name>
+    </Step>
+</SharedFlow>
