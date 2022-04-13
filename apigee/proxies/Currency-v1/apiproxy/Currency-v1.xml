@@ -1,0 +1,21 @@
+<APIProxy revision="3" name="Currency-v1">
+    <DisplayName></DisplayName>
+    <Description>API for managing Currency resources.</Description>
+    <CreatedAt>1649064409904</CreatedAt>
+    <LastModifiedAt>1649064409904</LastModifiedAt>
+    <BasePaths>/v1/currencyservices</BasePaths>
+    <Policies>
+        <Policy>CORS</Policy>
+        <Policy>FC-Security</Policy>
+        <Policy>OAS-ValidateRequest</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>oas://currencyservices.yaml</Resource>
+    </Resources>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>
