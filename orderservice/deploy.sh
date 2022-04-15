@@ -17,5 +17,6 @@ kubectl wait pod -n orders orderservice-staging --for condition=Ready=True --tim
 kubectl cp -n orders ./dist/Linux/orderservice orderservice-staging:/data/
 kubectl exec -it -n orders orderservice-staging -- bash -c "touch /data/ready"
 
+kubectl delete -n orders pod orderservice-staging
 
 
