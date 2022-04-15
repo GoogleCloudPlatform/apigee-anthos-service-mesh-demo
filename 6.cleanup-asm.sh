@@ -53,3 +53,5 @@ kubectl delete -n $GATEWAY_NAMESPACE \
   -f asmoutput/samples/gateways/istio-ingressgateway
 
 kubectl delete namespace $GATEWAY_NAMESPACE
+
+./orderservice/cleanup.sh

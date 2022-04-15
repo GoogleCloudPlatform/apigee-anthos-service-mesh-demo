@@ -91,3 +91,6 @@ kubectl apply -f \
 
 kubectl get service "istio-ingressgateway" \
     -n $GATEWAY_NAMESPACE
+
+
+./orderservice/deploy.sh
