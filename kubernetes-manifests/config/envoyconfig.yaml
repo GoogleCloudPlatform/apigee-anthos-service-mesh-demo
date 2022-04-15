@@ -24,12 +24,14 @@ static_resources:
                 route: { cluster: product_grpc, timeout: 60s }
               - match: { prefix: "/hipstershop.CurrencyService" }
                 route: { cluster: currency_grpc, timeout: 60s }
+              - match: { prefix: "/hipstershop.OrderService" }
+                route: { cluster: orders_grpc, timeout: 60s }
           http_filters:
           - name: envoy.filters.http.grpc_json_transcoder
             typed_config:
               "@type": type.googleapis.com/envoy.extensions.filters.http.grpc_json_transcoder.v3.GrpcJsonTranscoder
               proto_descriptor: "config/proto.pb"
-              services: ["hipstershop.ProductCatalogService", "hipstershop.CurrencyService"]
+              services: ["hipstershop.ProductCatalogService", "hipstershop.CurrencyService", "hipstershop.OrderService"]
               print_options:
                 add_whitespace: true
                 always_print_primitive_fields: true
@@ -58,8 +60,6 @@ static_resources:
               socket_address:
                 address: productcatalogservice.product-catalog.svc.cluster.local
                 port_value: 3550
-                # address: localhost
-                # port_value: 3550
   - name: currency_grpc
     connect_timeout: 1.25s
     http2_protocol_options: {}
@@ -82,3 +82,23 @@ static_resources:
                 port_value: 7000
                 # address: localhost
                 # port_value: 7000
+  - name: orders_grpc
+    connect_timeout: 1.25s
+    http2_protocol_options: {}
+    type: LOGICAL_DNS
+    lb_policy: ROUND_ROBIN
+    dns_lookup_family: V4_ONLY
+    typed_extension_protocol_options:
+      envoy.extensions.upstreams.http.v3.HttpProtocolOptions:
+        "@type": type.googleapis.com/envoy.extensions.upstreams.http.v3.HttpProtocolOptions
+        explicit_http_config:
+          http2_protocol_options: {}
+    load_assignment:
+      cluster_name: orders_grpc
+      endpoints:
+        - lb_endpoints:
+            - endpoint:
+                address:
+                  socket_address:
+                    address: orderservice.orders.svc.cluster.local
+                    port_value: 9090

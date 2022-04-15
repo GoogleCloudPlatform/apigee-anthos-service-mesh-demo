@@ -55,8 +55,8 @@ From a GCE VM within the same VPC
 ```bash
 
 export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-
-grpcurl -plaintext -proto pb/demo.proto $ILB_IP hipstershop.ProductCatalogService/ListProducts # gRPC call to get product catalog data
+export GRPC_OPTS="-plaintext --import-path ./proto/googleapis --import-path ./proto --proto hipstershop.proto"
+grpcurl ${GRPC_OPTS}  $ILB_IP hipstershop.ProductCatalogService/ListProducts # gRPC call to get product catalog data
 
 curl http://$ILB_IP/products # REST call to get product catalog data
 
