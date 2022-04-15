@@ -279,13 +279,6 @@ message Ad {
 // ------------Order Service service------------------
 
 service OrderService {
-    rpc SayHello (HelloRequest) returns (HelloReply) {
-        option (google.api.http) = {
-            post: "/hello"
-            body: "*"
-        };
-    };
-
     rpc SubmitOrder (OrderRequest) returns (OrderResponse) {
         option (google.api.http) = {
             post: "/orders"
