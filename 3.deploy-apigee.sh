@@ -75,6 +75,12 @@ sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/currencyser
 zip -r ../Currency-v1.zip apiproxy
 
 cd ..
+
+cd Orders-v1
+sed -i "s@{SERVER_URL}@https://$APIGEE_HOST@" apiproxy/resources/oas/orderservices.yaml
+zip -r ../Orders-v1.zip apiproxy
+
+cd ..
 cd SF-Security-v1/
 zip -r ../SF-Security-v1.zip sharedflowbundle
 
@@ -110,11 +116,19 @@ REV=$(./apigeecli/apigeecli apis import -f apigee/output/Currency-v1.zip --org $
 echo "Creating API Product"
 ./apigeecli/apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
 
+echo "Importing and Deploying Apigee Orders-v1 proxy..."
+REV=$(./apigeecli/apigeecli apis import -f apigee/output/Orders-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+./apigeecli/apigeecli apis deploy-wait --name Orders-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+
+echo "Creating API Product"
+./apigeecli/apigeecli products create --name Orders-v1 --displayname "Order Services v1" --proxies Orders-v1 --envs $APIGEE_ENV --approval auto --legacy --org $PROJECT --token $TOKEN
+
+
 echo "Creating Developer"
 ./apigeecli/apigeecli developers create --user testuser --email testuser@acme.com --first Test --last User --org $PROJECT --token $TOKEN
 
 echo "Creating Developer App"
-./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods Products-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods Products-v1 --prods Orders-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
 
 APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 

@@ -1,0 +1,77 @@
+openapi: 3.0.2
+info:
+  description: API for managing Currency resources.
+  version: 1.0.0
+  title: Curerency API
+servers:
+- url: "{SERVER_URL}/v1/currencyservices"
+security:
+  - ApiKeyAuth: [] 
+paths:
+  /currencies:
+    get:
+      summary: List 'Currency' objects.
+      description: Retrieve a list of 'Currency' objects from the server.
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Currencies'    
+  /convert:
+    post:
+      summary: Currency conversion
+      description: converts a currency
+      requestBody:
+        description: converts a currency
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConvertRequest'
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConvertResponse'    
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      name: apikey
+      in: query
+  schemas:
+    Currencies:
+      type: object
+      properties:
+        currencycodes:
+          type: array
+          items:
+            type: string
+    ConvertRequest:
+      type: object
+      properties:
+        to_code:
+          type: string
+          example: "GBP"
+        from:
+          type: object
+          properties:
+            currency_code: 
+              type: string
+              example: "USD"
+            units: 
+              type: string 
+              example: "100"
+    ConvertResponse:
+      type: object
+      properties:
+        currencyCode:
+          type: string
+        units:
+          type: string
+        nanos:
+          type: string

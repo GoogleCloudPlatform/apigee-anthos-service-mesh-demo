@@ -1,0 +1,21 @@
+<APIProxy revision="3" name="Orders-v1">
+    <DisplayName></DisplayName>
+    <Description>API for managing Orders resources.</Description>
+    <CreatedAt>1649064409904</CreatedAt>
+    <LastModifiedAt>1649064409904</LastModifiedAt>
+    <BasePaths>/v1/orderservices</BasePaths>
+    <Policies>
+        <Policy>CORS</Policy>
+        <Policy>FC-Security</Policy>
+        <Policy>OAS-ValidateRequest</Policy>
+    </Policies>
+    <ProxyEndpoints>
+        <ProxyEndpoint>default</ProxyEndpoint>
+    </ProxyEndpoints>
+    <Resources>
+        <Resource>oas://orderservices.yaml</Resource>
+    </Resources>
+    <TargetEndpoints>
+        <TargetEndpoint>default</TargetEndpoint>
+    </TargetEndpoints>
+</APIProxy>

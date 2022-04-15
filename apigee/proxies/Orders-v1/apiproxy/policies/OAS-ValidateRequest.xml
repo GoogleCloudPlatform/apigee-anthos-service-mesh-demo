@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<OASValidation continueOnError="false" enabled="true" name="OAS-ValidateRequest">
+  <DisplayName>OAS-ValidateRequest</DisplayName>
+  <Properties/>
+  <Source>request</Source>
+  <OASResource>oas://orderservices.yaml</OASResource>
+</OASValidation>
