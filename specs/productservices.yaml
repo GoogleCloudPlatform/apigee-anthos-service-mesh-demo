@@ -2,10 +2,10 @@
 openapi: 3.0.2
 info:
   description: API for managing Product resources.
-  version: 0.0.1
+  version: 1.0.0
   title: Products API
 servers:
-- url: "https://34.117.135.82.nip.io/v1/productservices"
+- url: "https://{APIGEE_HOST}/v1/productservices"
 security:
   - ApiKeyAuth: [] 
 paths:
