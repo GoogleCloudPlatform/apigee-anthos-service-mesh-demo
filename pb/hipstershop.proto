@@ -275,3 +275,72 @@ message Ad {
     // short advertisement text to display.
     string text = 2;
 }
+
+// ------------Order Service service------------------
+
+service OrderService {
+    rpc SayHello (HelloRequest) returns (HelloReply) {
+        option (google.api.http) = {
+            post: "/hello"
+            body: "*"
+        };
+    };
+
+    rpc SubmitOrder (OrderRequest) returns (OrderResponse) {
+        option (google.api.http) = {
+            post: "/orders"
+            body: "*"
+        };
+    };
+}
+
+message OrderRequest {
+    string user_id = 1 [ json_name = "user_id"] ;
+    string email = 2;
+    string currency = 3;
+    OrderAddress address = 4;
+    repeated OrderRequestItem items = 5;
+    OrderCC credit_card = 6;
+}
+
+message OrderCC {
+    string number = 1;
+    int32 cvv = 2;
+    int32 exp_year = 3;
+    int32 exp_month = 4;
+}
+
+message OrderAddress {
+    string street = 1;
+    string city = 2;
+    string state = 3;
+    string country = 4;
+    int32 zip = 5;
+}
+
+message OrderResponse {
+    string  id = 1;
+    string shipping_id = 2 [ json_name = "shipping_id"] ;
+    double shipping_cost = 3 [ json_name = "shipping_cost"];
+    OrderAddress  shipping_address = 4 [ json_name = "shipping_address"] ;
+    repeated OrderResponseItem items = 5;
+}
+
+message OrderResponseItem {
+    string id = 1;
+    int32 quantity = 2;
+    double cost = 3;
+}
+
+message OrderRequestItem {
+    string id = 1;
+    int32 quantity = 2;
+}
+
+message HelloRequest {
+    string name = 1;
+}
+
+message HelloReply {
+    string message = 1;
+}

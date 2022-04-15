@@ -1,0 +1,33 @@
+{
+  "name": "orderservice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "bin": {
+    "orderservice": "src/index.js"
+  },
+  "scripts": {
+    "build:Linux": "pkg -o dist/Linux/orderservice --targets node16-linux-x64 . && chmod a+x dist/Linux/*",
+    "build:Darwin": "pkg -o dist/Darwin/orderservice-arm64  --targets node16-macos-arm64 . && pkg -o dist/Darwin/orderservice-x64  --targets node16-macos-x64 .  && chmod a+x dist/Darwin/*",
+    "build": "pkg -o dist/Darwin/orderservice-arm64  --targets node16-macos-arm64 . && pkg -o dist/Darwin/orderservice-x64  --targets node16-macos-x64 .  && chmod a+x dist/Darwin/* && pkg -o dist/Linux/orderservice --targets node16-linux-x64 . && chmod a+x dist/Linux/* "
+  },
+  "pkg": {
+    "scripts": [
+      "src/*.js"
+    ],
+    "assets": [
+      "proto/*.*",
+      "proto/**/*.*"
+    ]
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "pkg": "^5.6.0"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.6.3",
+    "@grpc/proto-loader": "^0.6.9",
+    "google-protobuf": "^3.20.1-rc.1"
+  }
+}
