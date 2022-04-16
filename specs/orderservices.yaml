@@ -5,7 +5,7 @@ info:
   version: 1.0.0
   title: Orders API
 servers:
-  - url: "https://{APIGEE_HOST}/v1/orderservice"
+  - url: "https://{APIGEE_HOST}/v1/orderservices"
 security:
   - ApiKeyAuth: []
 paths:
