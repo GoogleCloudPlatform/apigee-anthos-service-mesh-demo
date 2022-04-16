@@ -145,11 +145,11 @@ APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token 
 echo "Proxy deploy"
 echo "Run curl https://$APIGEE_HOST/v1/productservices/products?apikey=$APIKEY to get the list of products"
 echo "Run curl https://$APIGEE_HOST/v1/currencyservices/currencies?apikey=$APIKEY to get the list of currencies"
-echo "curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \
+echo "Run curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \
   -H 'content-type: application/json' \
   -d '{
   \""user_id\"": \""johndoe\"",
-  \""email": \""johndoe@acme.com\"",
+  \""email\"": \""johndoe@acme.com\"",
   \""currency\"": \""USD\"",
   \""items\"": [
     {
@@ -162,7 +162,7 @@ echo "curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY'
      \""city\"": \""Quincy\"",
      \""state\"": \""Massachusetts\"",
      \""country\"": \""US\"",
-     \""zip\"": 02169
+     \""zip\"": 32169
    },
    \""credit_card\"": {
      \""number\"": \""4263982640269299\"",
