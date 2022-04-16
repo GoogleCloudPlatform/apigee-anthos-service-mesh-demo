@@ -1,42 +1,51 @@
+
 openapi: 3.0.2
 info:
   description: API for managing Currency resources.
   version: 1.0.0
-  title: Curerency API
+  title: Orders API
 servers:
-- url: "{SERVER_URL}/v1/currencyservices"
+  - url: "{SERVER_URL}/v1/orderservice"
 security:
-  - ApiKeyAuth: [] 
+  - ApiKeyAuth: []
 paths:
-  /currencies:
-    get:
-      summary: List 'Currency' objects.
-      description: Retrieve a list of 'Currency' objects from the server.
-      responses:
-        "200":
-          description: Successful response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Currencies'    
-  /convert:
+  /orders:
     post:
-      summary: Currency conversion
-      description: converts a currency
+      summary: Create a new order
+      description: Submit a new order to the boutique shop
       requestBody:
-        description: converts a currency
+        description: Order payload
         required: true
         content:
           application/json:
+            example:
+              user_id: your_user_id
+              email: your_email@example.com
+              currency: USD
+              items:
+                - id: 6E92ZMYYFZ
+                  quantity: 2
+              address:
+                street: 1600 Pennsylvania Avenue NW
+                city: Washington
+                state: DC
+                country: US
+                zip: 20500
+              credit_card:
+                number: '4263982640269299'
+                cvv: 837
+                exp_year: 2023
+                exp_month: 2
+
             schema:
-              $ref: '#/components/schemas/ConvertRequest'
+              $ref: '#/components/schemas/hipstershop.OrderRequest'
       responses:
         "200":
           description: Successful response
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ConvertResponse'    
+                $ref: '#/components/schemas/OrderResponse'
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -44,34 +53,90 @@ components:
       name: apikey
       in: query
   schemas:
-    Currencies:
-      type: object
+    hipstershop.OrderRequest:
       properties:
-        currencycodes:
-          type: array
+        user_id:
+          type: string
+        email:
+          type: string
+        currency:
+          type: string
+        address:
+          "$ref": "#/components/schemas/hipstershop.OrderAddress"
+          additionalProperties: false
+        items:
           items:
-            type: string
-    ConvertRequest:
+            "$ref": "#/components/schemas/hipstershop.OrderRequestItem"
+          type: array
+        credit_card:
+          "$ref": "#/components/schemas/hipstershop.OrderCC"
+          additionalProperties: false
+      additionalProperties: false
       type: object
+      title: Order Request
+    hipstershop.OrderAddress:
       properties:
-        to_code:
+        street:
           type: string
-          example: "GBP"
-        from:
-          type: object
-          properties:
-            currency_code: 
-              type: string
-              example: "USD"
-            units: 
-              type: string 
-              example: "100"
-    ConvertResponse:
+        city:
+          type: string
+        state:
+          type: string
+        country:
+          type: string
+        zip:
+          type: integer
+      additionalProperties: false
       type: object
+      title: Order Address
+    hipstershop.OrderCC:
       properties:
-        currencyCode:
+        number:
           type: string
-        units:
+        cvv:
+          type: integer
+        exp_year:
+          type: integer
+        exp_month:
+          type: integer
+      additionalProperties: false
+      type: object
+      title: Order CC
+    hipstershop.OrderRequestItem:
+      properties:
+        id:
           type: string
-        nanos:
+        quantity:
+          type: integer
+      additionalProperties: false
+      type: object
+      title: Order Request Item
+    OrderResponse:
+      properties:
+        id:
           type: string
+        shipping_id:
+          type: string
+        shipping_cost:
+          type: number
+        shipping_address:
+          "$ref": "#/components/schemas/hipstershop.OrderAddress"
+          additionalProperties: false
+        items:
+          items:
+            "$ref": "#/components/schemas/hipstershop.OrderResponseItem"
+          type: array
+      additionalProperties: false
+      type: object
+      title: Order Response
+    hipstershop.OrderResponseItem:
+      properties:
+        id:
+          type: string
+        quantity:
+          type: integer
+        cost:
+          type: number
+      additionalProperties: false
+      type: object
+      title: Order Response Item
