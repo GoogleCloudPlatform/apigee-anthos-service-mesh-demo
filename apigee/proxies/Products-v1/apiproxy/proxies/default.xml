@@ -8,6 +8,9 @@
     <PreFlow name="PreFlow">
         <Request>
             <Step>
+                <Name>CORS</Name>
+            </Step>
+            <Step>
                 <Name>FC-Security</Name>
             </Step>
             <Step>
