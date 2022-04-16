@@ -145,5 +145,31 @@ APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token 
 echo "Proxy deploy"
 echo "Run curl https://$APIGEE_HOST/v1/productservices/products?apikey=$APIKEY to get the list of products"
 echo "Run curl https://$APIGEE_HOST/v1/currencyservices/currencies?apikey=$APIKEY to get the list of currencies"
+echo "curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \
+  -H 'content-type: application/json' \
+  -d '{
+  \""user_id\"": \""johndoe\"",
+  \""email": \""johndoe@acme.com\"",
+  \""currency\"": \""USD\"",
+  \""items\"": [
+    {
+     \""id\"": \""6E92ZMYYFZ\"",
+     \""quantity\"": 2
+    }
+  ],
+  \""address\"": {
+     \""street\"": \""111 Aspen Court\"",
+     \""city\"": \""Quincy\"",
+     \""state\"": \""Massachusetts\"",
+     \""country\"": \""US\"",
+     \""zip\"": 02169
+   },
+   \""credit_card\"": {
+     \""number\"": \""4263982640269299\"",
+     \""cvv\"": 837,
+     \""exp_year\"": 2023,
+     \""exp_month\"": 2
+   }
+}'"
 
 rm -rf apigee/output apigeecli*
