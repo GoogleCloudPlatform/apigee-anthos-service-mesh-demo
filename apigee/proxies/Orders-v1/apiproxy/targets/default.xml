@@ -1,21 +1,41 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <TargetEndpoint name="default">
-  <PreFlow name="PreFlow">
-    <Request>
-      <Step>
-        <Name>CORS</Name>
-      </Step>
-    </Request>
-    <Response/>
-  </PreFlow>
-  <Flows/>
-  <PostFlow name="PostFlow">
-    <Request/>
-    <Response/>
-  </PostFlow>
-  <HTTPTargetConnection>
-      <LoadBalancer>
-          <Server name="TS-ASM-Demo"/>
-      </LoadBalancer>
+    <FaultRules>
+        <FaultRule name="custom-fault">
+            <!-- do nothing  -->
+            <Condition>custom_fault = true</Condition>
+        </FaultRule>
+        <FaultRule name="grpc-error">
+            <Step>
+                <Name>JS-GRPCError</Name>
+            </Step>
+            <Step>
+                <Name>AM-GRPCError</Name>
+            </Step>
+            <Condition>error.header.grpc-status isNot null</Condition>
+        </FaultRule>
+        <FaultRule name="generic-error">
+            <Step>
+                <Name>AM-GenericError</Name>
+            </Step>
+        </FaultRule>
+    </FaultRules>
+    <PreFlow name="PreFlow">
+        <Request>
+            <Step>
+                <Name>CORS</Name>
+            </Step>
+        </Request>
+        <Response/>
+    </PreFlow>
+    <Flows/>
+    <PostFlow name="PostFlow">
+        <Request/>
+        <Response/>
+    </PostFlow>
+    <HTTPTargetConnection>
+        <LoadBalancer>
+            <Server name="TS-ASM-Demo"/>
+        </LoadBalancer>
     </HTTPTargetConnection>
 </TargetEndpoint>

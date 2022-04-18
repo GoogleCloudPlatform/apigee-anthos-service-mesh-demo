@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-GRPCError">
+    <DisplayName>AM-GRPCError</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="Content-Type">application/json</Header>
+        </Headers>
+        <StatusCode>{error.header.grpc-status}</StatusCode>
+        <Payload>
+{
+  "errors": [
+    {
+      "message": "A backend error has occurred. Message: {escapeJSON(error.message)}. {grpc-message-decoded}"
+    }
+  ]
+}
+        </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="true" transport="http" type="response">error</AssignTo>
+</AssignMessage>

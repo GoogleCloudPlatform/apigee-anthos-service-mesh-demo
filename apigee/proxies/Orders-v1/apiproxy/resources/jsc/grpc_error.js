@@ -1,0 +1,1 @@
+context.setVariable("grpc-message-decoded", decodeURI(context.getVariable("error.header.grpc-message")));

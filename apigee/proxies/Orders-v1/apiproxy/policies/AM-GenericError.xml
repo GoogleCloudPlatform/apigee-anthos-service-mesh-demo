@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<AssignMessage async="false" continueOnError="false" enabled="true" name="AM-GenericError">
+    <DisplayName>AM-GenericError</DisplayName>
+    <Properties/>
+    <Set>
+        <Headers>
+            <Header name="Content-Type">application/json</Header>
+        </Headers>
+        <StatusCode>500</StatusCode>
+        <Payload>
+{
+  "errors": [
+    {
+      "message": "An internal server error has occurred. Message: {escapeJSON(error.message)}"
+    }
+  ]
+}
+        </Payload>
+    </Set>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="true" transport="http" type="response">error</AssignTo>
+</AssignMessage>
