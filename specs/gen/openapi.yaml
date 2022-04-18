@@ -1,0 +1,258 @@
+# Generated with protoc-gen-openapi
+# https://github.com/google/gnostic/tree/master/cmd/protoc-gen-openapi
+
+openapi: 3.0.3
+info:
+    title: ""
+    version: 0.0.1
+paths:
+    /convert:
+        post:
+            tags:
+                - CurrencyService
+            operationId: CurrencyService_Convert
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/CurrencyConversionRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Money'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /currencies:
+        get:
+            tags:
+                - CurrencyService
+            operationId: CurrencyService_GetSupportedCurrencies
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/GetSupportedCurrenciesResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /orders:
+        post:
+            tags:
+                - OrderService
+            operationId: OrderService_SubmitOrder
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: '#/components/schemas/OrderRequest'
+                required: true
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/OrderResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+    /products:
+        get:
+            tags:
+                - ProductCatalogService
+            operationId: ProductCatalogService_ListProducts
+            responses:
+                "200":
+                    description: OK
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/ListProductsResponse'
+                default:
+                    description: Default error response
+                    content:
+                        application/json:
+                            schema:
+                                $ref: '#/components/schemas/Status'
+components:
+    schemas:
+        CurrencyConversionRequest:
+            type: object
+            properties:
+                from:
+                    $ref: '#/components/schemas/Money'
+                toCode:
+                    type: string
+                    description: The 3-letter currency code defined in ISO 4217.
+        GetSupportedCurrenciesResponse:
+            type: object
+            properties:
+                currencyCodes:
+                    type: array
+                    items:
+                        type: string
+                    description: The 3-letter currency code defined in ISO 4217.
+        GoogleProtobufAny:
+            type: object
+            properties:
+                '@type':
+                    type: string
+                    description: The type of the serialized message.
+            additionalProperties: true
+            description: Contains an arbitrary serialized message along with a @type that describes the type of the serialized message.
+        ListProductsResponse:
+            type: object
+            properties:
+                products:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/Product'
+        Money:
+            type: object
+            properties:
+                currencyCode:
+                    type: string
+                    description: The 3-letter currency code defined in ISO 4217.
+                units:
+                    type: integer
+                    description: The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar.
+                    format: int64
+                nanos:
+                    type: integer
+                    description: Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000.
+                    format: int32
+            description: Represents an amount of money with its currency type.
+        OrderAddress:
+            type: object
+            properties:
+                street:
+                    type: string
+                city:
+                    type: string
+                state:
+                    type: string
+                country:
+                    type: string
+                zip:
+                    type: integer
+                    format: int32
+        OrderCC:
+            type: object
+            properties:
+                number:
+                    type: string
+                cvv:
+                    type: integer
+                    format: int32
+                expYear:
+                    type: integer
+                    format: int32
+                expMonth:
+                    type: integer
+                    format: int32
+        OrderRequest:
+            type: object
+            properties:
+                user_id:
+                    type: string
+                email:
+                    type: string
+                currency:
+                    type: string
+                address:
+                    $ref: '#/components/schemas/OrderAddress'
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderRequestItem'
+                creditCard:
+                    $ref: '#/components/schemas/OrderCC'
+        OrderRequestItem:
+            type: object
+            properties:
+                id:
+                    type: string
+                quantity:
+                    type: integer
+                    format: int32
+        OrderResponse:
+            type: object
+            properties:
+                id:
+                    type: string
+                shipping_id:
+                    type: string
+                shipping_cost:
+                    type: number
+                    format: double
+                shipping_address:
+                    $ref: '#/components/schemas/OrderAddress'
+                items:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/OrderResponseItem'
+        OrderResponseItem:
+            type: object
+            properties:
+                id:
+                    type: string
+                quantity:
+                    type: integer
+                    format: int32
+                cost:
+                    type: number
+                    format: double
+        Product:
+            type: object
+            properties:
+                id:
+                    type: string
+                name:
+                    type: string
+                description:
+                    type: string
+                picture:
+                    type: string
+                priceUsd:
+                    $ref: '#/components/schemas/Money'
+                categories:
+                    type: array
+                    items:
+                        type: string
+                    description: Categories such as "clothing" or "kitchen" that can be used to look up other related products.
+        Status:
+            type: object
+            properties:
+                code:
+                    type: integer
+                    description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+                    format: int32
+                message:
+                    type: string
+                    description: A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details] field, or localized by the client.
+                details:
+                    type: array
+                    items:
+                        $ref: '#/components/schemas/GoogleProtobufAny'
+                    description: A list of messages that carry the error details.  There is a common set of message types for APIs to use.
+            description: 'The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors).'
+tags:
+    - name: CurrencyService
+    - name: OrderService
+    - name: ProductCatalogService
