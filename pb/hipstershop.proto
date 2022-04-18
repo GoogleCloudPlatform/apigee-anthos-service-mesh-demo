@@ -16,6 +16,8 @@ syntax = "proto3";
 
 package hipstershop;
 
+option go_package = "google.golang.org/genproto/googleapis/rpc/hipstershop;hipstershop";
+
 import "google/api/annotations.proto";
 
 // -----------------Cart service-----------------
