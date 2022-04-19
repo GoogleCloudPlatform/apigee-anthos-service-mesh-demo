@@ -47,12 +47,6 @@ echo "No API_GATEWAY_NAMESPACE variable set"
 exit
 fi
 
-if [ -z "$ILB_IP" ]
-then
-echo "No ILB_IP variable set"
-export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-fi
-
 TOKEN=$(gcloud auth print-access-token)
 TARGETSERVER_NAME=TS-ASM-Demo
 APP_NAME=ASM-Demo-App
@@ -64,11 +58,11 @@ unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
 mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
 echo "Deleting Developer App"
-DEVELOPER_ID=$(./apigeecli/apigeecli developers get --email testuser@acme.com --org $PROJECT --token $TOKEN | jq .'developerId' -r)
+DEVELOPER_ID=$(./apigeecli/apigeecli developers get --email testuser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN | jq .'developerId' -r)
 ./apigeecli/apigeecli apps delete --id $DEVELOPER_ID --name $APP_NAME --org $PROJECT --token $TOKEN
 
 echo "Deleting Developer"
-./apigeecli/apigeecli developers delete --email testuser@acme.com --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli developers delete --email testuser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN
 
 echo "Deleting API Products"
 ./apigeecli/apigeecli products delete --name Currency-v1 --org $PROJECT --token $TOKEN

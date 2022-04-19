@@ -139,10 +139,10 @@ echo "Creating API Product"
 
 
 echo "Creating Developer"
-./apigeecli/apigeecli developers create --user testuser --email testuser@acme.com --first Test --last User --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli developers create --user testuser --email testuser_apigeeasmdemo@acme.com --first Test --last User --org $PROJECT --token $TOKEN
 
 echo "Creating Developer App"
-./apigeecli/apigeecli apps create --name $APP_NAME --email testuser@acme.com --prods Products-v1 --prods Orders-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
+./apigeecli/apigeecli apps create --name $APP_NAME --email testuser_apigeeasmdemo@acme.com --prods Products-v1 --prods Orders-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
 
 APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 
