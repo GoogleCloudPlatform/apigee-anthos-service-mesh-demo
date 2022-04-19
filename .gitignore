@@ -16,6 +16,7 @@ asmoutput
 asmcli
 .DS_Store
 apigee/output/
+env.sh
 
 # Logs
 logs
