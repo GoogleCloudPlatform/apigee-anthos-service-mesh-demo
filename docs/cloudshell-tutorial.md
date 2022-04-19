@@ -1,12 +1,9 @@
 # Apigee + ASM Demo
 
+---
 This tutorial shows you how to expose gRPC service inside Anthos Service Mesh as RESTful APIs for external consumption using Apigee X.
 
 Let's get started!
-
----
-
-##
 
 ---
 
