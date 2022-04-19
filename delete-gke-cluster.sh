@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 # Copyright 2022 Google LLC
 #
@@ -14,20 +14,28 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+set -e
+
+if [ -z "$PROJECT" ]
+then
+echo "No PROJECT variable set"
+exit
+fi
+
+if [ -z "$LOCATION" ]
+then
+echo "No LOCATION variable set"
+exit
+fi
+
+if [ -z "$CLUSTERNAME" ]
+then
+echo "No CLUSTERNAME variable set"
+exit
+fi
 
 
-SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-set -e && pushd "${SCRIPT_DIR}"
-
-echo "Copying proto files from pb directory ..."
-rm -rf ./proto/*
-cp -r ../pb/googleapis ./proto/googleapis
-cp ../pb/hipstershop.proto ./proto/hipstershop.proto
-
-echo "Installing npm dependencies ..."
-npm i
-
-echo "Building service binary ..."
-npm run build
-
-set +e && popd
+echo "Deleting cluster..."
+gcloud container clusters delete $CLUSTERNAME \
+    --project=$PROJECT \
+    --zone=$LOCATION --quiet

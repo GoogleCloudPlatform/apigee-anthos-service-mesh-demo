@@ -1,96 +1,155 @@
-# apigee-asm-demo
-Demo of Apigee X as API management layer on the [Anthos Service Mesh Online Boutique Quickstart Demo](https://cloud.google.com/service-mesh/docs/unified-install/quickstart-asm).
+# API Management + Microservices Demo
+
+This demo extends the existing GCP Boutique Shop [Microservices demo](https://github.com/GoogleCloudPlatform/microservices-demo) to show
+how to use Apigee for exposing internal gRPC services (inside the mesh) as RESTful API to external consumers (outside the mesh).
+
+When exposing APIs to external consumers, there are key challenges that arise due to the nature of external consumption.
+Here are a few of them from the point of view of both the API producer, and the API consumer.
+
+### API Producer challenges
+* How do you expose a cohesive and consistent RESTful API surface (from disparate underlying services)?
+  * Consistent & RESTful URL paths
+  * Consistent & RESTful HTTP status codes
+  * Consistent & RESTful error message formats
+  * Consistent & RESTful request & response payloads
+  * Consistent & RESTful authentication mechanisms
+* How do you measure engagement and get key usage / business insights for the APIs being exposed?
+* How do you monetize the APIs being exposed?
+
+### API Consumer challenges
+* How do you discover APIs available?
+* How do you learn to use the APIs available?
+* How do you sign-up (get credentials) to use the APIs available?
+
+While this demo does not address every single use-case listed above, it does show the core components and concepts needed to use Apigee in this context.
+
+## Demo Architecture
+
+The demo assumes you are deploying all components in GCP, and that you are using Apigee X in combination with GKE + Anthos Service Mesh.
+
+<p align="center">
+<img src="images/arch.png"  alt="Apigee & ASM Demo Architecture" />
+</p>
+
 
 ## Prerequisites
-1. Provision Apigee Org 
-2. Configure the Environment and Environment group
+1. Provision Apigee X
+2. Enable external API traffic to your Apigee X instance
+3. Make sure the following tools are available in your terminal $PATH
+    * [gcloud SDK](https://cloud.google.com/sdk/docs/0install)
+    * kubectl
+    * wget
+    * unzip
+    * curl
+    * jq
 
-### Tools
+## (QuickStart) Demo CloudShell setup tutorial
 
-* [gcloud SDK](https://cloud.google.com/sdk/docs/install)
-* curl
-* jq
-* [apigeecli](https://github.com/srinandan/apigeecli#installation)
+Use the following GCP CloudShell tutorial, and follow the instructions.
 
-## Deploy
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/ssvaidyanathan/apigee-asm-demo&cloudshell_git_branch=main&cloudshell_workspace=.&cloudshell_tutorial=docs/cloudshell-tutorial.md)
 
-- Open Cloud Shell
-- Clone this repo `git clone https://github.com/ssvaidyanathan/apigee-asm-demo.git`
-- `cd apigee-asm-demo`
-- Set the following variables
 
-```bash
+## Demo instructions
 
-export PROJECT=$(gcloud config get-value project)
-export NETWORK="your-vpc-name" # For example "default"
-export SUBNETWORK="your-subnet-name" # For example "default"
-export LOCATION="your-cluster-zone" # For example "us-west1-a"
-export CLUSTERNAME="your-cluster-name" # For example "asm-cluster"
-export GATEWAY_NAMESPACE="istio-gateway"
-export API_GATEWAY_NAMESPACE="api-ingress"
-export APIGEE_HOST="your-apigee-host" # For example "example-apigee.com"
-export APIGEE_ENV="your-apigee-env" # For example "eval"
+1. Clone this repo, and switch the main directory
 
 ```
-
-- Simply run these scripts as needed to deploy ASM, Gateway, and Apigee X with proxies and a developer portal.
-
-```bash
-
-./0.create-gke-cluster.sh # Create a GKE cluster if you dont have one
-
-./1.deploy-asm.sh # Deploy ASM with the Online Boutique app as described here: https://cloud.google.com/service-mesh/docs/unified-install/quickstart-asm
-
-./2.deploy-gateway.sh # Deploy the gateway configuration to proxy the gRPC services as both gRPC and REST for public consumers
-
-./3.deploy-apigee.sh # Deploy a proxy to Apigee
-
+git clone https://github.com/ssvaidyanathan/apigee-asm-demo.git
+cd apigee-asm-demo
 ```
 
-You can deploy step 1 manually with the above link if wanted (create cluster + deploy ASM and Online Boutique).
-
-After deploying you should be able to send test requests to the services with either curl or grpcurl for both the gRPC and REST services.
-
-From a GCE VM within the same VPC
-```bash
-
-export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-export GRPC_OPTS="-plaintext --import-path ./proto/googleapis --import-path ./proto --proto hipstershop.proto"
-grpcurl ${GRPC_OPTS}  $ILB_IP hipstershop.ProductCatalogService/ListProducts # gRPC call to get product catalog data
-
-curl http://$ILB_IP/products # REST call to get product catalog data
+2. Edit the `env.sh` and set ENV vars, then source it
 
 ```
+source ./env.sh
+```
 
-For the Apigee endpoint:
+3. Run script to create a GKE cluster
+```bash
+./create-gke-cluster.sh 
+```
+
+4. Run script to deploy ASM and the Online Boutique Shop demo
 
 ```bash
-
-curl https://{APIGEE_HOST}/productservice/products?apikey=aafddfsfdss2kjj3k2jl3jkl2jl323 # REST API secured with an API key in Apigee
-curl https://{APIGEE_HOST}/currencyservice/currencies?apikey=aafddfsfdss2kjj3k2jl3jkl2jl323 # REST API secured with an API key in Apigee
-
-
+./deploy-asm.sh 
 ```
+
+5. Run scrip to create a private API ingress (for Apigee to hit) & gRPC transcoding service
+
+```bash
+./deploy-gateway.sh 
+```
+
+
+6. Deploy Apigee API proxies, target server, products, apps
+```bash
+./deploy-apigee.sh 
+```
+
+## Testing the Apigee RESTful API proxies
+
+The script that deploys the Apigee API proxies prints a few sample cURL commands that you can use to test.
+
+Those sample cURL commands already have the necessary API key for each fo the API calls.
+
+```bash
+curl https://{APIGEE_HOST}/productservice/products?apikey=API_KEY_FROM_APIGEE_DEVELOPER_APP
+curl https://{APIGEE_HOST}/currencyservice/currencies?apikey=API_KEY_FROM_APIGEE_DEVELOPER_APP
+```
+
+## Troubleshooting
+
+1. Apigee is not able to reach the API private ingress
+
+   You can use a GCE VM within the same VPC Network and try using cURL to test for connectivity.
+
+   First, get the IP address of the API ingress load balancer
+
+   ```bash
+   export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+   echo "ILB_IP=${ILB_IP}"
+   ```
+
+   Then, from within the GCE VM, run the following curl command to get product catalog data
+
+   ```bash
+   curl http://$ILB_IP/products 
+   ```
+
+   If this works, but Apigee is still not able to reach this endpoint, verify that the Apigee Target Server has the right IP address.
+
 
 ## Cleanup
 
-- Set the following variables
+For each fo the "deploy" scripts, there is an equivalent "cleanup" script you can run.
+If you want to clean the entire setup, first source your `env.sh` script, and then run the scripts in the following order
+
 ```bash
-
-export PROJECT=$(gcloud config get-value project)
-export NETWORK="your-vpc-name" # For example "default"
-export SUBNETWORK="your-subnet-name" # For example "default"
-export LOCATION="your-cluster-zone" # For example "us-west1-a"
-export CLUSTERNAME="your-cluster-name" # For example "asm-cluster"
-export GATEWAY_NAMESPACE="istio-gateway"
-export API_GATEWAY_NAMESPACE="api-ingress"
-export APIGEE_HOST="your-apigee-host" # For example "example-apigee.com"
-export APIGEE_ENV="your-apigee-env" # For example "eval"
-
+./cleanup-apigee.sh
+./cleanup-gateway.sh
+./cleanup-asm.sh
 ```
 
-Execute 
-* `4.cleanup-apigee.sh` to cleanup all Apigee artifacts (apps, products, proxies, sharedflow, etc)
-* `5.cleanup-gateway.sh` to cleanup all the API Gateway services from the cluster
-* `6.cleanup-asm.sh` to cleanup ASM from the cluster
-* `7.delete-gke-cluster.sh` to delete the GKE cluster
+Then, finally you can remove the GKE cluster with
+
+```bash
+./delete-gke-cluster.sh
+```
+
+## Not Google Product Clause
+
+This is not an officially supported Google product, nor is it part of an
+official Google product.
+
+## Support
+
+If you need support or assistance using the tool, you can try inquiring on [Google Cloud Community
+forum dedicated to Apigee](https://www.googlecloudcommunity.com/gc/Apigee/bd-p/cloud-apigee).  There is no service-level guarantee for
+responses to inquiries regarding this tool.
+
+## License
+
+This material is [Copyright 2022 Google LLC](./NOTICE)
+and is licensed under the [Apache 2.0 License](LICENSE).
