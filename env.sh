@@ -1,4 +1,4 @@
-export PROJECT=$(gcloud config get-value project)
+export PROJECT="<GCP_PROJECT_ID>"
 export NETWORK="<K8S_CLUSTER_VPC_NETWORK>"
 export SUBNETWORK="<K8S_CLUSTER_VPC_SUBNET>"
 export LOCATION="<K8S_CLUSTER_ZONE>"
