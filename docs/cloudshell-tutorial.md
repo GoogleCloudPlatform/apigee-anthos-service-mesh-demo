@@ -12,10 +12,6 @@ Edit the provided sample `env.sh` file, and set the environment variables there.
 Then, source the `env.sh` file.
 
 ```sh
-cd apigee-asm-demo
-```
-
-```sh
 source ./env.sh
 ```
 
