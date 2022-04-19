@@ -7,3 +7,5 @@ export FRONTEND_GATEWAY_NAMESPACE="frontend-ingress"
 export API_GATEWAY_NAMESPACE="api-ingress"
 export APIGEE_HOST="<APIGEE_DOMAIN_NAME>"
 export APIGEE_ENV="<APIGEE_ENVIRONMENT_NAME>"
+
+gcloud config set project $PROJECT
