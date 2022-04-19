@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+set -e && pushd "${SCRIPT_DIR}"
 
 echo "Deploying orderservice ..."
 echo "Creating orders namespace"
@@ -19,4 +20,4 @@ kubectl exec -it -n orders orderservice-staging -- bash -c "touch /data/ready"
 
 kubectl delete -n orders pod orderservice-staging
 
-
+set +e && popd

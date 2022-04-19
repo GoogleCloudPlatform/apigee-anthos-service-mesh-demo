@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
-set -e
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+set -e && pushd "${SCRIPT_DIR}"
 
 echo "Copying proto files from pb directory ..."
 rm -rf ./proto/*
@@ -12,3 +13,5 @@ npm i
 
 echo "Building service binary ..."
 npm run build
+
+set +e && popd
