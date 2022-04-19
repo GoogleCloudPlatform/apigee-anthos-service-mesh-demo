@@ -28,6 +28,8 @@ Now, let's create a GKE cluster. Use the provided script to do this:
 ./create-gke-cluster.sh
 ```
 
+Note: This will take a few mins. If you already have a GKE cluster and would like to use that, you can skip this step
+
 ---
 
 ## Install Anthos Service Mesh & Boutique Shop
