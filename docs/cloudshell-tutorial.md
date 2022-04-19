@@ -31,7 +31,7 @@ Now, let's create a GKE cluster. Use the provided script to do this:
 ./create-gke-cluster.sh
 ```
 
-Note: This will take a few mins. If you already have a GKE cluster and would like to use that, you can skip this step
+<walkthrough-footnote>This will take a few mins. If you already have a GKE cluster and would like to use that, you can skip this step</walkthrough-footnote>
 
 ---
 
@@ -42,7 +42,7 @@ Next, let's install Anthos Service Mesh into the cluster, as well as the Boutiqu
 ```sh
 ./deploy-asm.sh
 ```
-
+**Note**: This will take a few mins
 
 This script also creates an ASM ingress to expose the Boutique Shop UI externally. 
 You can test connectivity now by visiting the Boutique shop UI in your browser.
