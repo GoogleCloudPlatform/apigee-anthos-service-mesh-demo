@@ -10,7 +10,10 @@ Let's get started!
 ## Setup environment
 
 Edit the provided sample `env.sh` file, and set the environment variables there.
-Then, source the `env.sh` file.
+
+Click <walkthrough-editor-open-file filePath="env.sh">here</walkthrough-editor-open-file> to open the file in the editor
+
+Then, source the `env.sh` file in the Cloud shell.
 
 ```sh
 source ./env.sh
