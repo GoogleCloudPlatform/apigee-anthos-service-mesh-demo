@@ -54,7 +54,7 @@ FRONTEND_IP=$(kubectl get service istio-ingressgateway  -n $FRONTEND_GATEWAY_NAM
 echo "FRONTEND_IP=${FRONTEND_IP}"
 ```
 
-Use the IP address form the previous command, and visit
+Use the IP address form the previous command, and open the below URL in a nee browser tab
 
 ```
 https://${FRONTEND_IP}
