@@ -56,7 +56,7 @@ gcloud container clusters create $CLUSTERNAME \
     --project=$PROJECT \
     --zone=$LOCATION \
     --machine-type=e2-standard-4 \
-    --num-nodes=2 \
+    --num-nodes=3 \
     --workload-pool=$PROJECT.svc.id.goog \
     --network=$NETWORK \
     --subnetwork=$SUBNETWORK
