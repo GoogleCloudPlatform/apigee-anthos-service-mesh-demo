@@ -14,7 +14,7 @@
 
 openapi: 3.0.2
 info:
-  description: API for managing Currency resources.
+  description: API for managing Orders resources.
   version: 1.0.0
   title: Orders API
 servers:
