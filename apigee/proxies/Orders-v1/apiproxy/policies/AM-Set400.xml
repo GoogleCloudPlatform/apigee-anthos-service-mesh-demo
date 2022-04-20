@@ -14,19 +14,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<SharedFlow name="default">
-    <Step>
-        <Name>VAK-VerifyAPIKey</Name>
-    </Step>
-    <Step>
-        <Name>AM-RemoveAPIKey</Name>
-    </Step>
-    <Step>
-        <Condition>request.verb = "POST"</Condition>
-        <Name>RE-CheckSQL</Name>
-    </Step>
-    <Step>
-        <Condition>request.queryparam.quota isNot "false"</Condition>
-        <Name>Q-PerClient</Name>
-    </Step>
-</SharedFlow>
+<AssignMessage continueOnError="false" enabled="true" name="AM-Set400">
+    <DisplayName>AM-Set400</DisplayName>
+    <Properties/>
+    <AssignVariable>
+        <Name>error.status.code</Name>
+        <Value>400</Value>
+    </AssignVariable>
+    <IgnoreUnresolvedVariables>true</IgnoreUnresolvedVariables>
+    <AssignTo createNew="false" transport="http" type="response"/>
+</AssignMessage>

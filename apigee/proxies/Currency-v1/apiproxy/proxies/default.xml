@@ -15,6 +15,21 @@
  limitations under the License.
 -->
 <ProxyEndpoint name="default">
+    <FaultRules>
+        <FaultRule name="generic-error">
+            <Step>
+                <Name>AM-Set400</Name>
+                <Condition>(fault.name = "ThreatDetected")</Condition>
+            </Step>
+            <Step>
+                <Name>AM-GenericError</Name>
+            </Step>
+        </FaultRule>
+        <FaultRule name="custom-fault">
+            <!-- do nothing  -->
+            <Condition>custom_fault = true</Condition>
+        </FaultRule>
+    </FaultRules>
     <DefaultFaultRule name="add-cors">
         <Step>
             <Name>CORS</Name>

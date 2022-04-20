@@ -16,11 +16,13 @@
 <SharedFlowBundle revision="1" name="SF-Security-v1">
     <DisplayName></DisplayName>
     <Description>Security Sharedflow</Description>
-    <CreatedAt>1649875313358</CreatedAt>
-    <LastModifiedAt>1649875405601</LastModifiedAt>
+    <CreatedAt>1650475101241</CreatedAt>
+    <LastModifiedAt>1650475101241</LastModifiedAt>
     <Policies>
         <Policy>VAK-VerifyAPIKey</Policy>
         <Policy>AM-RemoveAPIKey</Policy>
+        <Policy>RE-CheckSQL</Policy>
+        <Policy>Q-PerClient</Policy>
     </Policies>
     <SharedFlows>
         <SharedFlow>default</SharedFlow>

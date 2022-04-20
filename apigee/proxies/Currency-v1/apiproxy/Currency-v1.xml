@@ -13,17 +13,18 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-
-<APIProxy revision="3" name="Currency-v1">
+<APIProxy revision="9" name="Currency-v1">
     <DisplayName></DisplayName>
     <Description>API for managing Currency resources.</Description>
-    <CreatedAt>1649064409904</CreatedAt>
-    <LastModifiedAt>1649064409904</LastModifiedAt>
+    <CreatedAt>1650475847713</CreatedAt>
+    <LastModifiedAt>1650475847713</LastModifiedAt>
     <BasePaths>/v1/currencyservices</BasePaths>
     <Policies>
-        <Policy>CORS</Policy>
         <Policy>FC-Security</Policy>
+        <Policy>CORS</Policy>
         <Policy>OAS-ValidateRequest</Policy>
+        <Policy>AM-GenericError</Policy>
+        <Policy>AM-Set400</Policy>
     </Policies>
     <ProxyEndpoints>
         <ProxyEndpoint>default</ProxyEndpoint>

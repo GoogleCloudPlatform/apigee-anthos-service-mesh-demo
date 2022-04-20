@@ -16,8 +16,8 @@
 <APIProxy revision="6" name="Orders-v1">
     <DisplayName></DisplayName>
     <Description>API for managing Orders resources.</Description>
-    <CreatedAt>1650300336422</CreatedAt>
-    <LastModifiedAt>1650300336422</LastModifiedAt>
+    <CreatedAt>1650475828019</CreatedAt>
+    <LastModifiedAt>1650475828019</LastModifiedAt>
     <BasePaths>/v1/orderservices</BasePaths>
     <Policies>
         <Policy>FC-Security</Policy>
@@ -26,6 +26,7 @@
         <Policy>AM-GenericError</Policy>
         <Policy>AM-GRPCError</Policy>
         <Policy>JS-GRPCError</Policy>
+        <Policy>AM-Set400</Policy>
     </Policies>
     <ProxyEndpoints>
         <ProxyEndpoint>default</ProxyEndpoint>

@@ -14,19 +14,13 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<SharedFlow name="default">
-    <Step>
-        <Name>VAK-VerifyAPIKey</Name>
-    </Step>
-    <Step>
-        <Name>AM-RemoveAPIKey</Name>
-    </Step>
-    <Step>
-        <Condition>request.verb = "POST"</Condition>
-        <Name>RE-CheckSQL</Name>
-    </Step>
-    <Step>
-        <Condition>request.queryparam.quota isNot "false"</Condition>
-        <Name>Q-PerClient</Name>
-    </Step>
-</SharedFlow>
+<Quota continueOnError="false" enabled="true" name="Q-PerClient" type="flexi">
+    <DisplayName>Q-PerClient</DisplayName>
+    <Properties/>
+    <Allow count="10" ref="verifyapikey.VAK-VerifyAPIKey.apiproduct.developer.quota.limit"/>
+    <Interval ref="verifyapikey.VAK-VerifyAPIKey.apiproduct.developer.quota.interval">1</Interval>
+    <Distributed>true</Distributed>
+    <Synchronous>true</Synchronous>
+    <TimeUnit ref="verifyapikey.VAK-VerifyAPIKey.apiproduct.developer.quota.timeunit">minute</TimeUnit>
+    <Identifier ref="developer.app.id"/>
+</Quota>

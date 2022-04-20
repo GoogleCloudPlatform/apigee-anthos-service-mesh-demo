@@ -14,19 +14,12 @@
  See the License for the specific language governing permissions and
  limitations under the License.
 -->
-<SharedFlow name="default">
-    <Step>
-        <Name>VAK-VerifyAPIKey</Name>
-    </Step>
-    <Step>
-        <Name>AM-RemoveAPIKey</Name>
-    </Step>
-    <Step>
-        <Condition>request.verb = "POST"</Condition>
-        <Name>RE-CheckSQL</Name>
-    </Step>
-    <Step>
-        <Condition>request.queryparam.quota isNot "false"</Condition>
-        <Name>Q-PerClient</Name>
-    </Step>
-</SharedFlow>
+<RegularExpressionProtection continueOnError="false" enabled="true" name="RE-CheckSQL">
+    <DisplayName>RE-CheckSQL</DisplayName>
+    <Properties/>
+    <IgnoreUnresolvedVariables>false</IgnoreUnresolvedVariables>
+    <Variable name="request.content">
+        <Pattern>[\s]*((delete)|(exec)|(drop\s*table)|(insert)|(shutdown)|(update)|(\bor\b))</Pattern>
+    </Variable>
+    <Source>request</Source>
+</RegularExpressionProtection>

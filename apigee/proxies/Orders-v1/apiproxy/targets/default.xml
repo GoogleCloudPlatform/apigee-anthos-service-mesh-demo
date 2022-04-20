@@ -31,6 +31,10 @@
         </FaultRule>
         <FaultRule name="generic-error">
             <Step>
+                <Name>AM-Set400</Name>
+                <Condition>(fault.name = "ThreatDetected")</Condition>
+            </Step>
+            <Step>
                 <Name>AM-GenericError</Name>
             </Step>
         </FaultRule>
@@ -52,5 +56,8 @@
         <LoadBalancer>
             <Server name="TS-ASM-Demo"/>
         </LoadBalancer>
+        <Properties>
+            <Property name="retain.queryparams.enabled">false</Property>
+        </Properties>
     </HTTPTargetConnection>
 </TargetEndpoint>
