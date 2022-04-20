@@ -156,16 +156,16 @@ APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token 
 
 echo "All the Apigee artifacts are successfully deployed!"
 echo "Use the below curl commands to test your demo"
-echo "\n"
+echo " "
 echo "To get the list of products"
 echo "----------------------------"
 echo "curl https://$APIGEE_HOST/v1/productservices/products?apikey=$APIKEY"
-echo "\n"
+echo " "
 
 echo "To get the list of currencies"
 echo "-----------------------------"
 echo "curl https://$APIGEE_HOST/v1/currencyservices/currencies?apikey=$APIKEY"
-echo "\n"
+echo " "
 # echo "Run curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \
 #   -H 'content-type: application/json' \
 #   -d '{
