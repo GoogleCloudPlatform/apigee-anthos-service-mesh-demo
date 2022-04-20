@@ -18,6 +18,10 @@
     <FaultRules>
         <FaultRule name="generic-error">
             <Step>
+                <Name>AM-Set400</Name>
+                <Condition>(fault.name = "ThreatDetected")</Condition>
+            </Step>
+            <Step>
                 <Name>AM-GenericError</Name>
             </Step>
         </FaultRule>
