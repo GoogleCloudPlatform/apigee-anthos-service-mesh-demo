@@ -49,8 +49,16 @@ fi
 
 if [ -z "$ILB_IP" ]
 then
-echo "No ILB_IP variable set"
-export ILB_IP=$(kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+  echo "No ILB_IP variable set"
+  function get_ilb()  {
+    kubectl get services api-ingressgateway -n $API_GATEWAY_NAMESPACE -o jsonpath='{.status.loadBalancer.ingress[0].ip}'
+  }
+  until [ -n "$(get_ilb)" ] ;
+  do
+    echo "Waiting for the ILB to be ready ..."
+    sleep 10
+  done
+  export ILB_IP=$(get_ilb)
 fi
 
 TOKEN=$(gcloud auth print-access-token)
