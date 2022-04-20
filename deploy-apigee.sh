@@ -146,44 +146,43 @@ echo "Creating Developer App"
 
 APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 
-#echo "Creating OpenAPI spec with correct server URL..."
-#RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format="get(address)" --global --project "$PROJECT" --quiet) 
-#cp specs/productservice.yaml portal/client/productservice.yaml
-#sed -i "s@{SERVER_URL}@https://eval-group.$RUNTIME_IP.nip.io@" portal/client/productservice.yaml
+echo "All the Apigee artifacts are successfully deployed!"
+echo "Use the below curl commands to test your demo"
+echo "\n"
+echo "To get the list of products"
+echo "----------------------------"
+echo "curl https://$APIGEE_HOST/v1/productservices/products?apikey=$APIKEY"
+echo "\n"
 
-#echo "Build and deploy portal..."
-#gcloud builds submit --tag eu.gcr.io/$PROJECT/apigee-service-portal
-#gcloud run deploy apigee-service-portal --image eu.gcr.io/$PROJECT/apigee-service-portal --platform managed --project $PROJECT \
-#  --region europe-west1 --allow-unauthenticated
-
-echo "Proxy deploy"
-echo "Run curl https://$APIGEE_HOST/v1/productservices/products?apikey=$APIKEY to get the list of products"
-echo "Run curl https://$APIGEE_HOST/v1/currencyservices/currencies?apikey=$APIKEY to get the list of currencies"
-echo "Run curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \
-  -H 'content-type: application/json' \
-  -d '{
-  \""user_id\"": \""johndoe\"",
-  \""email\"": \""johndoe@acme.com\"",
-  \""currency\"": \""USD\"",
-  \""items\"": [
-    {
-     \""id\"": \""6E92ZMYYFZ\"",
-     \""quantity\"": 2
-    }
-  ],
-  \""address\"": {
-     \""street\"": \""111 Aspen Court\"",
-     \""city\"": \""Quincy\"",
-     \""state\"": \""Massachusetts\"",
-     \""country\"": \""US\"",
-     \""zip\"": 32169
-   },
-   \""credit_card\"": {
-     \""number\"": \""4263982640269299\"",
-     \""cvv\"": 837,
-     \""exp_year\"": 2023,
-     \""exp_month\"": 2
-   }
-}'"
+echo "To get the list of currencies"
+echo "-----------------------------"
+echo "curl https://$APIGEE_HOST/v1/currencyservices/currencies?apikey=$APIKEY"
+echo "\n"
+# echo "Run curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \
+#   -H 'content-type: application/json' \
+#   -d '{
+#   \""user_id\"": \""johndoe\"",
+#   \""email\"": \""johndoe@acme.com\"",
+#   \""currency\"": \""USD\"",
+#   \""items\"": [
+#     {
+#      \""id\"": \""6E92ZMYYFZ\"",
+#      \""quantity\"": 2
+#     }
+#   ],
+#   \""address\"": {
+#      \""street\"": \""111 Aspen Court\"",
+#      \""city\"": \""Quincy\"",
+#      \""state\"": \""Massachusetts\"",
+#      \""country\"": \""US\"",
+#      \""zip\"": 32169
+#    },
+#    \""credit_card\"": {
+#      \""number\"": \""4263982640269299\"",
+#      \""cvv\"": 837,
+#      \""exp_year\"": 2023,
+#      \""exp_month\"": 2
+#    }
+# }'"
 
 rm -rf apigee/output apigeecli*

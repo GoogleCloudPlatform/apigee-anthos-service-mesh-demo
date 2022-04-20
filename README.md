@@ -92,7 +92,7 @@ source ./env.sh
 
 The script that deploys the Apigee API proxies prints a few sample cURL commands that you can use to test.
 
-Those sample cURL commands already have the necessary API key for each fo the API calls.
+Those sample cURL commands already have the necessary API key for each of the API calls.
 
 ```bash
 curl https://{APIGEE_HOST}/productservice/products?apikey=API_KEY_FROM_APIGEE_DEVELOPER_APP

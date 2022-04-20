@@ -84,9 +84,10 @@ This script creates an Apigee Target Server, and points it to the IP address of 
 It also creates a set of API Proxies, API products, a sample App developer, and App.
 
 
-## Test the APIs 
+### Test the APIs 
 
 The script that deploys the Apigee API proxies prints a few sample cURL commands that you can use to test.
+Those sample cURL commands already have the necessary API key for each of the API calls.
 
 ---
 ## Conclusion
