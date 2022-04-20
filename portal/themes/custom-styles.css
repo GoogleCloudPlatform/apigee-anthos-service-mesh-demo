@@ -36,3 +36,10 @@
     position: relative;
     top: 30px;
 }
+
+.site-logo img {
+    height: 44px;
+    display: block;
+    position: relative;
+    top: -5px;
+}
