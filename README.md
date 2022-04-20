@@ -47,7 +47,7 @@ The demo assumes you are deploying all components in GCP, and that you are using
 
 Use the following GCP CloudShell tutorial, and follow the instructions.
 
-[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/GoogleCloudPlatform/apigee-asm-demo&cloudshell_git_branch=main&cloudshell_workspace=.&cloudshell_tutorial=docs/cloudshell-tutorial.md)
+[![Open in Cloud Shell](https://gstatic.com/cloudssh/images/open-btn.png)](https://ssh.cloud.google.com/cloudshell/open?cloudshell_git_repo=https://github.com/ssvaidyanathan/apigee-asm-demo&cloudshell_git_branch=main&cloudshell_workspace=.&cloudshell_tutorial=docs/cloudshell-tutorial.md)
 
 
 ## Demo instructions
@@ -55,7 +55,7 @@ Use the following GCP CloudShell tutorial, and follow the instructions.
 1. Clone this repo, and switch the main directory
 
 ```
-git clone https://github.com/GoogleCloudPlatform/apigee-asm-demo.git
+git clone https://github.com/ssvaidyanathan/apigee-asm-demo.git
 cd apigee-asm-demo
 ```
 
