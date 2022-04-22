@@ -98,6 +98,29 @@ Congratulations! You've successfully used Apigee X to externalize several servic
 
 <walkthrough-inline-feedback></walkthrough-inline-feedback>
 
+##### Cleanup
+
+For each fo the "deploy" scripts, there is an equivalent "cleanup" script you can run.
+If you want to clean the entire setup, first source your `env.sh` script
+
+```sh
+source ./env.sh
+```
+
+and then run the scripts in the following order
+
+```bash
+./cleanup-apigee.sh
+./cleanup-gateway.sh
+./cleanup-asm.sh
+```
+
+Then, finally you can remove the GKE cluster with
+
+```bash
+./delete-gke-cluster.sh
+```
+
 ##### What's next?
 
 Learn more about the [Cloud Shell](https://cloud.google.com/shell) IDE environment and the [Cloud Code](https://cloud.google.com/code) extension.
