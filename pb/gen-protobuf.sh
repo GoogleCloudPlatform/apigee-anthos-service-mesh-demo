@@ -29,7 +29,7 @@ echo "Generating pb file from proto ..."
 protoc -I${GOOGLEAPIS_DIR} -I. \
        --include_imports \
        --include_source_info \
-       --descriptor_set_out=../kubernetes-manifests/config/proto.pb \
+       --descriptor_set_out=gen/proto.pb \
        ./hipstershop.proto
 
 

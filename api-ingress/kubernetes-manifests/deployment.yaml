@@ -21,7 +21,7 @@ spec:
   selector:
     matchLabels:
       app: api-ingressgateway
-      istio: ingressgateway2
+      istio: api-ingressgateway
   template:
     metadata:
       annotations:
@@ -30,7 +30,7 @@ spec:
         inject.istio.io/templates: gateway
       labels:
         app: api-ingressgateway
-        istio: ingressgateway2
+        istio: api-ingressgateway
     spec:
       containers:
       - name: istio-proxy
@@ -42,8 +42,18 @@ spec:
           requests:
             cpu: 100m
             memory: 128Mi
+        volumeMounts:
+          - name: config
+            mountPath: "/config"
+            readOnly: true
+      volumes:
+        - name: config
+          configMap:
+            name: proto
+            items:
+              - key: "proto.pb"
+                path: "proto.pb"
       serviceAccountName: api-ingressgateway
-
 ---
 # Optional: PodDisruptionBudget will instruct Kubernetes to ensure at least 1 replica
 # is available when possible
@@ -55,7 +65,7 @@ spec:
   maxUnavailable: 1
   selector:
     matchLabels:
-      istio: ingressgateway2
+      istio: api-ingressgateway
       app: api-ingressgateway
 ---
 # Optional: HorizontalPodAutoscaler will automatically scale the gateway replica count based on

@@ -11,34 +11,26 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
+apiVersion: v1
+kind: Service
 metadata:
-  name: api-gateway
+  annotations:
+    networking.gke.io/load-balancer-type: "Internal"
+  name: api-ingressgateway
+  labels:
+    app: api-ingressgateway
+    istio: api-ingressgateway
 spec:
+  type: LoadBalancer
+  ports:
+  # status-port exposes a /healthz/ready endpoint that can be used with GKE Ingress health checks
+  - name: status-port
+    port: 15021
+    protocol: TCP
+    targetPort: 15021
+  # Any ports exposed in Gateway resources should be exposed here.
+  - name: http2
+    port: 80
   selector:
-    istio: ingressgateway2
-  servers:
-  - port:
-      number: 80
-      name: http
-      protocol: HTTP
-    hosts:
-    - "*"
----
-apiVersion: networking.istio.io/v1alpha3
-kind: VirtualService
-metadata:
-  name: api-ingress
-spec:
-  hosts:
-  - "*"
-  gateways:
-  - api-gateway
-  http:
-  - route:
-    - destination:
-        host: proxyservice
-        port:
-          number: 10000
+    istio: api-ingressgateway
+    app: api-ingressgateway

@@ -46,11 +46,4 @@ gcloud container clusters get-credentials $CLUSTERNAME \
 
 kubectl config set-context $CLUSTERNAME
 
-echo "Deleting Ingress Gateway for the APIs "
-kubectl delete -f kubernetes-manifests/api-ingressgateway/. -n $API_GATEWAY_NAMESPACE
-
-echo "Deleting configmap for the proxyservice"
-kubectl delete configmap proxyconfig -n $API_GATEWAY_NAMESPACE
-
-echo "Deleting namespace"
-kubectl delete namespace $API_GATEWAY_NAMESPACE
+./api-ingress/cleanup.sh
