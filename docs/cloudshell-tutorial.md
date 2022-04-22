@@ -64,7 +64,7 @@ https://${FRONTEND_IP}
 
 ## Deploy private API ingress
 
-Next, let's deploy another ASM ingress that will be used by Apigee. The script also deploys a proxyservice for transcoding JSON to gRPC and routing the requests to the underlying mesh services. The ingress is deployed as an Internal Load Balancer
+Next, let's deploy another ASM ingress that will be used by Apigee. The script also injects an Envoy filter for transcoding JSON to gRPC and routing the requests to the underlying mesh services. The ingress is deployed as an Internal Load Balancer
 
 ```sh
 ./deploy-gateway.sh
