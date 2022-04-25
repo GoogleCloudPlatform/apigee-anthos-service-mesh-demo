@@ -76,6 +76,8 @@ source ./env.sh
 ./deploy-asm.sh 
 ```
 
+The script will provide the URL of the deployed application in the console. Open the URL in a new browser tab to access the application
+
 5. Run scrip to create a private API ingress (for Apigee to hit) & gRPC transcoding service
 
 ```bash
