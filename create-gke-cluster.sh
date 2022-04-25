@@ -50,6 +50,7 @@ fi
 echo "Enabling APIs..."
 gcloud services enable compute.googleapis.com
 gcloud services enable container.googleapis.com
+gcloud services enable cloudtrace.googleapis.com
 
 echo "Creating cluster..."
 gcloud container clusters create $CLUSTERNAME \
@@ -60,3 +61,4 @@ gcloud container clusters create $CLUSTERNAME \
     --workload-pool=$PROJECT.svc.id.goog \
     --network=$NETWORK \
     --subnetwork=$SUBNETWORK
+

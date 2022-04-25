@@ -39,6 +39,8 @@ spec:
           image: ubuntu:latest
           command: ["/bin/bash", "-c"]
           env:
+            - name: DISABLE_TRACING
+              value: "true"
             - name: CHECKOUT_SERVICE
               value: "checkoutservice.checkout.svc.cluster.local:5050"
             - name: CART_SERVICE

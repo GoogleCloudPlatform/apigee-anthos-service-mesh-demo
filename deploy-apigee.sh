@@ -166,31 +166,17 @@ echo "To get the list of currencies"
 echo "-----------------------------"
 echo "curl https://$APIGEE_HOST/v1/currencyservices/currencies?apikey=$APIKEY"
 echo " "
-# echo "Run curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \
-#   -H 'content-type: application/json' \
-#   -d '{
-#   \""user_id\"": \""johndoe\"",
-#   \""email\"": \""johndoe@acme.com\"",
-#   \""currency\"": \""USD\"",
-#   \""items\"": [
-#     {
-#      \""id\"": \""6E92ZMYYFZ\"",
-#      \""quantity\"": 2
-#     }
-#   ],
-#   \""address\"": {
-#      \""street\"": \""111 Aspen Court\"",
-#      \""city\"": \""Quincy\"",
-#      \""state\"": \""Massachusetts\"",
-#      \""country\"": \""US\"",
-#      \""zip\"": 32169
-#    },
-#    \""credit_card\"": {
-#      \""number\"": \""4263982640269299\"",
-#      \""cvv\"": 837,
-#      \""exp_year\"": 2023,
-#      \""exp_month\"": 2
-#    }
-# }'"
+
+echo "To create an order"
+echo "------------------"
+echo "curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY' \\
+  -H 'content-type: application/json' \\
+  -d '{
+  \""user_id\"": \""johndoe\"",\""email\"": \""johndoe@acme.com\"",\""currency\"": \""USD\"",
+  \""items\"": [{\""id\"": \""6E92ZMYYFZ\"",\""quantity\"": 2}],
+  \""address\"": {\""street\"": \""111 Aspen Court\"",\""city\"": \""Quincy\"",\""state\"": \""Massachusetts\"",\""country\"": \""US\"",\""zip\"": 32169},
+  \""credit_card\"": {\""number\"": \""4263982640269299\"",\""cvv\"": 837,\""exp_year\"": 2023,\""exp_month\"": 2}
+}'"
+echo " "
 
 rm -rf apigee/output apigeecli*

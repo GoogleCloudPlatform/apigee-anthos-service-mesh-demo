@@ -16,6 +16,14 @@
 
 'use strict';
 
+if(process.env.DISABLE_TRACING) {
+    console.log("Tracing disabled.")
+}
+else {
+    console.log("Tracing enabled.")
+    require('@google-cloud/trace-agent').start();
+}
+
 let PROTO_PATH = __dirname + '/../proto/hipstershop.proto';
 let util = require('util');
 let assert = require('assert');
@@ -40,16 +48,6 @@ let checkoutService = new hipsterShop.CheckoutService(process.env.CHECKOUT_SERVI
 let emptyCartSync = util.promisify(cartService.emptyCart).bind(cartService);
 let addItemSync = util.promisify(cartService.addItem).bind(cartService);
 let placeOrderSync = util.promisify(checkoutService.placeOrder).bind(checkoutService);
-
-
-function doSayHello(call, callback) {
-
-    //TODO: take order
-
-    callback(null, {
-        message: 'Hello! ' + call.request.name
-    });
-}
 
 async function validateOrderRequest(req) {
     if (!req.user_id) {
@@ -158,7 +156,6 @@ let server = new grpc.Server();
 server.bindAsync('0.0.0.0:9090', grpc.ServerCredentials.createInsecure(), (err, port) => {
     assert.ifError(err);
     server.addService(hipsterShop.OrderService.service, {
-        sayHello: doSayHello,
         submitOrder: doSubmitOrder
     });
     server.start();
