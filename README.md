@@ -97,8 +97,8 @@ The script that deploys the Apigee API proxies prints a few sample cURL commands
 Those sample cURL commands already have the necessary API key for each of the API calls.
 
 ```bash
-curl https://{APIGEE_HOST}/productservice/products?apikey=API_KEY_FROM_APIGEE_DEVELOPER_APP
-curl https://{APIGEE_HOST}/currencyservice/currencies?apikey=API_KEY_FROM_APIGEE_DEVELOPER_APP
+curl https://{APIGEE_HOST}/v1/productservices/products?apikey=API_KEY_FROM_APIGEE_DEVELOPER_APP
+curl https://{APIGEE_HOST}/v1/currencyservices/currencies?apikey=API_KEY_FROM_APIGEE_DEVELOPER_APP
 ```
 
 ## Troubleshooting
