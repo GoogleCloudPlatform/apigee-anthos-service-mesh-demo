@@ -23,6 +23,25 @@
     top: -30px;
 }
 
+.home-page .home-page-cards .home-page-card {
+    height: 100px;
+
+
+}
+
+.home-page .home-page-cards .home-page-card .home-page-card-header {
+    border-radius: 10px;
+    position: absolute;
+    transform: translate(0, 50%);
+    top: 20%;
+    left: 10%;
+    padding: 0px !important;
+}
+
+.mat-h2, .mat-title, .main-content h2 {
+    font: 24px Lato, serif;
+}
+
 .auth-dialog-footer > .mat-button {
     color: white;
     background: #161616;
@@ -38,8 +57,46 @@
 }
 
 .site-logo img {
-    height: 44px;
-    display: block;
-    position: relative;
-    top: -5px;
+    height: 44px !important;
+    position: relative !important;
+    top: -5px !important;
 }
+
+
+#index .main-content {
+    padding: 0;
+    background-image: none;
+}
+
+.full-width__container {
+    position: relative;
+    left: 50%;
+    right: 50%;
+    max-width: 100vw;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    background-image: url("/files/banner.jpeg");
+    background-size: cover;
+    background-position: 50% 50%;
+    height: 600px;
+    padding: 0;
+}
+
+.full-width__centered {
+    @include centered-content();
+}
+
+.full-width__text {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 30%;
+    transform: translate(-50%, -50%);
+    text-align: left;
+    font: small-caps bold 80px Lato, serif;
+}
+
+.full-width__content {
+
+}
+

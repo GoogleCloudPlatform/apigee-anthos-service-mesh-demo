@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-primary_color: white
+primary_color: #FFFFFF
 accent_color: cyan
-font: Roboto
+font: Lato
 primary_logo: primary-logo.png
 mobile_logo: mobile-logo.png
 favicon: fav-icon.png
