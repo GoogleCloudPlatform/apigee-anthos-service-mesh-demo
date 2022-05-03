@@ -25,9 +25,9 @@ fi
 mkdir specs;
 cd specs;
 echo "Downloading the specs..."
-curl --silent https://raw.githubusercontent.com/GoogleCloudPlatform/apigee-anthos-service-mesh-demo/main/portal/api-catalog/apis/currency-services/currencyservices.yaml --output currencyservices.yaml
-curl --silent https://raw.githubusercontent.com/GoogleCloudPlatform/apigee-anthos-service-mesh-demo/main/portal/api-catalog/apis/product-services/productservices.yaml --output productservices.yaml
-curl --silent https://raw.githubusercontent.com/GoogleCloudPlatform/apigee-anthos-service-mesh-demo/main/portal/api-catalog/apis/order-services/orderservices.yaml --output orderservices.yaml
+curl -fsSL https://raw.githubusercontent.com/GoogleCloudPlatform/apigee-anthos-service-mesh-demo/main/portal/api-catalog/apis/currency-services/currencyservices.yaml --output currencyservices.yaml
+curl -fsSL https://raw.githubusercontent.com/GoogleCloudPlatform/apigee-anthos-service-mesh-demo/main/portal/api-catalog/apis/product-services/productservices.yaml --output productservices.yaml
+curl -fsSL https://raw.githubusercontent.com/GoogleCloudPlatform/apigee-anthos-service-mesh-demo/main/portal/api-catalog/apis/order-services/orderservices.yaml --output orderservices.yaml
 
 echo "Updating the APIGEE Host in the specs"
 sed -i "s/{APIGEE_HOST}/$APIGEE_HOST/" *.yaml
