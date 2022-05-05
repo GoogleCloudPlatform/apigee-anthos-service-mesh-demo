@@ -53,7 +53,7 @@ APP_NAME=ASM-Demo-App
 
 echo "Installing apigeecli"
 APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
-wget https://github.com/srinandan/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
 unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
 mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
