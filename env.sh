@@ -12,15 +12,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-export PROJECT="ssv-apigee-asm-demo"
-export NETWORK="apigee-vpc"
-export SUBNETWORK="us-west1"
-export LOCATION="us-west1-a"
-export CLUSTERNAME="asm-demo"
+export PROJECT="<GCP_PROJECT_ID>"
+export NETWORK="<K8S_CLUSTER_VPC_NETWORK>"
+export SUBNETWORK="<K8S_CLUSTER_VPC_SUBNET>"
+export LOCATION="<K8S_CLUSTER_ZONE>"
+export CLUSTERNAME="<K8S_CLUSTER_NAME>"
 export UI_GATEWAY_NAMESPACE="ui-ingress"
 export API_GATEWAY_NAMESPACE="api-ingress"
-export APIGEE_HOST="34.117.135.82.nip.io"
-export APIGEE_ENV="eval"
+export APIGEE_HOST="<APIGEE_DOMAIN_NAME>"
+export APIGEE_ENV="<APIGEE_ENVIRONMENT_NAME>"
 
 gcloud config set project $PROJECT
