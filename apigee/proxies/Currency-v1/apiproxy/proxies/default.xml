@@ -58,7 +58,12 @@
         </Flow>
         <Flow name="post /convert">
             <Description>Currency Conversion</Description>
-            <Request/>
+            <Request>
+                <Step>
+                    <Name>MC-MonetizationCheck</Name>
+                    <Condition>mint.mintng_is_apiproduct_monetized = true</Condition>
+                </Step>
+            </Request>
             <Response/>
             <Condition>(proxy.pathsuffix MatchesPath "/convert") and (request.verb = "POST")</Condition>
         </Flow>
