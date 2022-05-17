@@ -1,7 +1,7 @@
 # API Management + Microservices Demo
 
 This demo extends the existing GCP Boutique Shop [Microservices demo](https://github.com/GoogleCloudPlatform/microservices-demo) to show
-how to use Apigee for exposing internal gRPC services (inside the mesh) as RESTful API to external consumers (outside the mesh).
+how to use Apigee for exposing internal gRPC services (inside the mesh) as RESTful APIs to external consumers (outside the mesh).
 
 When exposing APIs to external consumers, there are key challenges that arise due to the nature of external consumption.
 Here are a few of them from the point of view of both the API producer, and the API consumer.
@@ -33,10 +33,10 @@ The demo assumes you are deploying all components in GCP, and that you are using
 
 
 ## Prerequisites
-1. Provision Apigee X
-2. Enable external API traffic to your Apigee X instance
-3. Make sure the following tools are available in your terminal $PATH
-    * [gcloud SDK](https://cloud.google.com/sdk/docs/0install)
+1. [Provision Apigee X](https://cloud.google.com/apigee/docs/api-platform/get-started/provisioning-intro)
+2. Configure [external access](https://cloud.google.com/apigee/docs/api-platform/get-started/configure-routing#external-access) for API traffic to your Apigee X instance
+3. Make sure the following tools are available in your terminal's $PATH (Cloud Shell has these preconfigured)
+    * [gcloud SDK](https://cloud.google.com/sdk/docs/install)
     * kubectl
     * wget
     * unzip
@@ -54,40 +54,54 @@ Use the following GCP CloudShell tutorial, and follow the instructions.
 
 1. Clone this repo, and switch the main directory
 
-```
+
+```bash
 git clone https://github.com/GoogleCloudPlatform/apigee-anthos-service-mesh-demo.git
 cd apigee-anthos-service-mesh-demo
 ```
 
-2. Edit the `env.sh` and set ENV vars, then source it
+2. Edit the `env.sh` and configure the ENV vars
 
-```
+* `PROJECT` the project where you want to create the GKE cluster with ASM
+* `NETWORK` the network you have peered with Apigee and where you want the GKE cluster to be created
+* `SUBNETWORK` the subnetwork where the GKE cluster should be created
+* `LOCATION` the location for the GKE cluster
+* `CLUSTER_NAME` the name for the GKE demo cluster
+* `UI_GATEWAY_NAMESPACE` the kubernetes namespace for the UI ingress gateway
+* `API_GATEWAY_NAMESPACE` the kubernetes namespace for the API ingress gateway
+* `APIGEE_HOST` the externally reachable hostname of the Apigee environment group that contains APIGEE_ENV
+* `APIGEE_ENV` the Apigee environment where the demo resources should be created
+
+Now source the `env.sh` file
+
+```bash
 source ./env.sh
 ```
 
 3. Run script to create a GKE cluster
+
 ```bash
-./create-gke-cluster.sh 
+./create-gke-cluster.sh
 ```
 
 4. Run script to deploy ASM and the Online Boutique Shop demo
 
 ```bash
-./deploy-asm.sh 
+./deploy-asm.sh
 ```
 
-The script will provide the URL of the deployed application in the console. Open the URL in a new browser tab to access the application
+The script will provide the URL of the deployed application in the console. Open the URL in a new browser tab to access the application.
 
-5. Run scrip to create a private API ingress (for Apigee to hit) & gRPC transcoding service
+5. Run script to create a private API ingress (for Apigee to hit) & gRPC transcoding service
 
 ```bash
-./deploy-gateway.sh 
+./deploy-gateway.sh
 ```
 
 
 6. Deploy Apigee API proxies, target server, products, apps
 ```bash
-./deploy-apigee.sh 
+./deploy-apigee.sh
 ```
 
 ## Testing the Apigee RESTful API proxies
@@ -117,7 +131,7 @@ curl https://{APIGEE_HOST}/v1/currencyservices/currencies?apikey=API_KEY_FROM_AP
    Then, from within the GCE VM, run the following curl command to get product catalog data
 
    ```bash
-   curl http://$ILB_IP/products 
+   curl http://$ILB_IP/products
    ```
 
    If this works, but Apigee is still not able to reach this endpoint, verify that the Apigee Target Server has the right IP address.
@@ -125,7 +139,7 @@ curl https://{APIGEE_HOST}/v1/currencyservices/currencies?apikey=API_KEY_FROM_AP
 
 ## Cleanup
 
-For each fo the "deploy" scripts, there is an equivalent "cleanup" script you can run.
+For each of the "deploy" scripts, there is an equivalent "cleanup" script you can run.
 If you want to clean the entire setup, first source your `env.sh` script, and then run the scripts in the following order
 
 ```bash
@@ -148,7 +162,7 @@ official Google product.
 ## Support
 
 If you need support or assistance using the tool, you can try inquiring on [Google Cloud Community
-forum dedicated to Apigee](https://www.googlecloudcommunity.com/gc/Apigee/bd-p/cloud-apigee).  There is no service-level guarantee for
+forum dedicated to Apigee](https://www.googlecloudcommunity.com/gc/Apigee/bd-p/cloud-apigee). There is no service-level guarantee for
 responses to inquiries regarding this tool.
 
 ## License
