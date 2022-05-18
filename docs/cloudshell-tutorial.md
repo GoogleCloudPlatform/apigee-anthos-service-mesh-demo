@@ -44,9 +44,9 @@ Next, let's install Anthos Service Mesh into the cluster, as well as the Boutiqu
 ```
 **Note**: This will take a few mins
 
-This script also creates an ASM ingress to expose the Boutique Shop UI externally. 
+This script also creates an ASM ingress to expose the Boutique Shop UI externally.
 
-### Test the online boutique portal 
+### Test the online boutique portal
 
 The script that deploys demo will also print the URL to open in a browser tab. If you do not see it in the console, you can follow the below instructions to get it again
 
@@ -66,15 +66,15 @@ https://${UI_IP}.nip.io
 
 **Note**: It may take up to 10 minutes for the GCP Load balancer to be ready. If you don't see the Boutique Shop UI, wait and try again later.
 
---- 
+---
 
 ## Deploy private API ingress
 
-Next, let's deploy another ASM ingress that will be used by Apigee. This ingress has two main tasks. 
+Next, let's deploy another ASM ingress that will be used by Apigee. This ingress has two main tasks.
 
-  * First, it translates incoming REST calls into proper gRPC calls that the mesh services understand. 
+  * First, it translates incoming REST calls into proper gRPC calls that the mesh services understand.
 
-  * Second, it knows how to route to the underlying gRPC services. 
+  * Second, it knows how to route to the underlying gRPC services.
 
 The ingress is deployed as an Internal Load Balancer which will be used as a Target server for all the Apigee proxies configured in the subsequent step.
 
@@ -82,7 +82,7 @@ The ingress is deployed as an Internal Load Balancer which will be used as a Tar
 ./deploy-gateway.sh
 ```
 
---- 
+---
 
 ## Deploy Apigee components
 
@@ -96,10 +96,30 @@ This script creates an Apigee Target Server, and points it to the IP address of 
 It also creates a set of API Proxies, API products, a sample App developer, and App.
 
 
-### Test the APIs 
+### Test the APIs
 
 The script that deploys the Apigee API proxies prints a few sample cURL commands that you can use to test.
 Those commands already have the necessary API key for each of the API calls.
+
+---
+
+## (Optional) Deploy Monetization Components
+
+You can optionally create Apigee monetization artifacts top of the previously enabled Apigee components.
+If you are not interested in exploring monetization you can skip this step.
+
+*Note:* This step requires your organization to have the monetization addon enabled.
+See the [Apigee docs](https://cloud.google.com/apigee/docs/api-platform/monetization/enable)
+for instructions on how to enable monetization on your paid or eval organization.
+
+```sh
+./deploy-mint.sh
+```
+
+### Test the APIs
+
+The script again prints a sample cURL command that you can use to test.
+This command already has the necessary API key for the API call.
 
 ---
 ## Conclusion
@@ -122,6 +142,7 @@ source ./env.sh
 and then run the scripts in the following order
 
 ```bash
+./cleanup-mint # if applicable
 ./cleanup-apigee.sh
 ./cleanup-gateway.sh
 ./cleanup-asm.sh
