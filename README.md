@@ -104,6 +104,14 @@ The script will provide the URL of the deployed application in the console. Open
 ./deploy-apigee.sh
 ```
 
+7. (Optional) deploy monetization artifacts
+
+*Note:* This step requires your organization to have the monetization addon enabled. See the [Apigee docs](https://cloud.google.com/apigee/docs/api-platform/monetization/enable) for instructions on how to enable monetization on your paid or eval organization.
+
+```bash
+./deploy-mint.sh
+```
+
 ## Testing the Apigee RESTful API proxies
 
 The script that deploys the Apigee API proxies prints a few sample cURL commands that you can use to test.
@@ -143,6 +151,7 @@ For each of the "deploy" scripts, there is an equivalent "cleanup" script you ca
 If you want to clean the entire setup, first source your `env.sh` script, and then run the scripts in the following order
 
 ```bash
+./cleanup-mint.sh # if applicable
 ./cleanup-apigee.sh
 ./cleanup-gateway.sh
 ./cleanup-asm.sh

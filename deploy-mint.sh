@@ -37,8 +37,11 @@ fi
 
 TOKEN=$(gcloud auth print-access-token)
 
-echo "Enablig Monetization"
-./apigeecli/apigeecli organizations setaddons -o $PROJECT -t $TOKEN --advapiops --mint
+echo "Installing apigeecli"
+APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
+wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
 echo "Creating API Product"
 ./apigeecli/apigeecli products create --name Paid-Currency-v1 --displayname "Paid Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
@@ -97,3 +100,5 @@ echo "curl -X POST https://$APIGEE_HOST/v1/currencyservices/convert\?apikey\=GGT
 echo "-H \"Content-Type:application/json\" \\"
 echo "-d '{\"to_code\": \"CHF\", \"from\": {\"currency_code\": \"USD\", \"units\": \"42\", \"nanos\": 0}}'"
 echo " "
+
+rm -rf apigee/output apigeecli*
