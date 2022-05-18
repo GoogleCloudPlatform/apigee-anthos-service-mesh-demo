@@ -50,7 +50,6 @@ sleep 5s
   --cluster_location $LOCATION \
   --fleet_id $PROJECT \
   --output_dir asmoutput \
-  --option cloud-tracing \
   --enable_all \
   --ca mesh_ca
 
