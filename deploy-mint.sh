@@ -38,13 +38,15 @@ fi
 TOKEN=$(gcloud auth print-access-token)
 
 echo "Installing apigeecli"
-APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
-wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
-unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
-mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
+curl -s https://raw.githubusercontent.com/apigee/apigeecli/master/downloadLatest.sh | bash
+export PATH=$PATH:$HOME/.apigeecli/bin
+#APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
+#wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+#unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+#mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name Paid-Currency-v1 --displayname "Paid Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
+apigeecli products create --name Paid-Currency-v1 --displayname "Paid Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 echo "Create a rate plan"
 
@@ -69,10 +71,10 @@ curl "https://apigee.googleapis.com/v1/organizations/$PROJECT/apiproducts/Paid-C
     }'
 
 echo "Creating Developer"
-./apigeecli/apigeecli developers create --user payinguser --email payinguser_apigeeasmdemo@acme.com --first Paying --last User --org $PROJECT --token $TOKEN
+apigeecli developers create --user payinguser --email payinguser_apigeeasmdemo@acme.com --first Paying --last User --org $PROJECT --token $TOKEN
 
 echo "Creating Developer App"
-./apigeecli/apigeecli apps create --name paid-app --email payinguser_apigeeasmdemo@acme.com --prods Paid-Currency-v1 --org $PROJECT --token $TOKEN
+apigeecli apps create --name paid-app --email payinguser_apigeeasmdemo@acme.com --prods Paid-Currency-v1 --org $PROJECT --token $TOKEN
 
 
 curl "https://apigee.googleapis.com/v1/organizations/$PROJECT/developers/payinguser_apigeeasmdemo@acme.com/subscriptions" \
@@ -89,7 +91,7 @@ curl -H "Authorization: Bearer $TOKEN" \
     }' https://apigee.googleapis.com/v1/organizations/$PROJECT/developers/payinguser_apigeeasmdemo@acme.com/monetizationConfig
 
 
-APIKEY=$(./apigeecli/apigeecli apps get --name paid-app --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
+APIKEY=$(apigeecli apps get --name paid-app --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 
 echo "Mint Demo is successfully deployed!"
 echo "Use the below curl commands to test your demo"
@@ -101,4 +103,4 @@ echo "-H \"Content-Type:application/json\" \\"
 echo "-d '{\"to_code\": \"CHF\", \"from\": {\"currency_code\": \"USD\", \"units\": \"42\", \"nanos\": 0}}'"
 echo " "
 
-rm -rf apigee/output apigeecli*
+#rm -rf apigee/output apigeecli*

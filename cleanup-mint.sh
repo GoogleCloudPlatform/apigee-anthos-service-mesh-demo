@@ -35,17 +35,19 @@ APP_NAME=paid-app
 
 
 echo "Installing apigeecli"
-APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
-wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
-unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
-mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
+curl -s https://raw.githubusercontent.com/apigee/apigeecli/master/downloadLatest.sh | bash
+export PATH=$PATH:$HOME/.apigeecli/bin
+#APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
+#wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+#unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+#mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
 echo "Deleting Developer App"
-DEVELOPER_ID=$(./apigeecli/apigeecli developers get --email payinguser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN | jq '.developerId' -r)
-./apigeecli/apigeecli apps delete --id $DEVELOPER_ID --name $APP_NAME --org $PROJECT --token $TOKEN
+DEVELOPER_ID=$(apigeecli developers get --email payinguser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN | jq '.developerId' -r)
+apigeecli apps delete --id $DEVELOPER_ID --name $APP_NAME --org $PROJECT --token $TOKEN
 
 echo "Deleting Developer"
-./apigeecli/apigeecli developers delete --email payinguser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN
+apigeecli developers delete --email payinguser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN
 
 echo "Deleting Rateplan"
 PLAN_ID=$(curl "https://apigee.googleapis.com/v1/organizations/$PROJECT/apiproducts/Paid-Currency-v1/rateplans"  \
@@ -55,6 +57,6 @@ curl -X DELETE "https://apigee.googleapis.com/v1/organizations/$PROJECT/apiprodu
   -H "Authorization: Bearer $TOKEN"
 
 echo "Deleting API Product"
-./apigeecli/apigeecli products delete --name Paid-Currency-v1 --org $PROJECT --token $TOKEN
+apigeecli products delete --name Paid-Currency-v1 --org $PROJECT --token $TOKEN
 
-rm -rf apigeecli*
+#rm -rf apigeecli*

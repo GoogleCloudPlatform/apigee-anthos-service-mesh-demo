@@ -66,10 +66,12 @@ TARGETSERVER_NAME=TS-ASM-Demo
 APP_NAME=ASM-Demo-App
 
 echo "Installing apigeecli"
-APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
-wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
-unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
-mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
+curl -s https://raw.githubusercontent.com/apigee/apigeecli/master/downloadLatest.sh | bash
+export PATH=$PATH:$HOME/.apigeecli/bin
+#APIGEECLI_VERSION=$(curl -s https://api.github.com/repos/apigee/apigeecli/releases/latest | jq .'name' -r)
+#wget https://github.com/apigee/apigeecli/releases/download/${APIGEECLI_VERSION}/apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+#unzip apigeecli_${APIGEECLI_VERSION}_Linux_x86_64.zip
+#mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
 #echo "Testing if Apigee X is provisioned..."
 #RUNTIME_IP=$(gcloud compute addresses describe lb-ipv4-vip-1 --format="get(address)" --global --project "$PROJECT" --quiet)
@@ -109,50 +111,50 @@ zip -r ../SF-Security-v1.zip sharedflowbundle
 cd ../../../
 
 echo "Configuring Apigee Targetserver..."
-./apigeecli/apigeecli targetservers get --name $TARGETSERVER_NAME --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+apigeecli targetservers get --name $TARGETSERVER_NAME --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 if [ $? -eq 0 ]
 then
     echo "Updating Target server"
-    ./apigeecli/apigeecli targetservers update --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+    apigeecli targetservers update --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 else
     echo "Creating Target server"
-    ./apigeecli/apigeecli targetservers create --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+    apigeecli targetservers create --name $TARGETSERVER_NAME --host $ILB_IP --port 80 --enable true --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 fi
 
 echo "Importing and Deploying Security Sharedflow"
-REV=$(./apigeecli/apigeecli sharedflows import -f apigee/output/SF-Security-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-./apigeecli/apigeecli sharedflows deploy --name SF-Security-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+REV=$(apigeecli sharedflows import -f apigee/output/SF-Security-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+apigeecli sharedflows deploy --name SF-Security-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Importing and Deploying Apigee Products-v1 proxy..."
-REV=$(./apigeecli/apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-./apigeecli/apigeecli apis deploy-wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+REV=$(apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+apigeecli apis deploy-wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name Products-v1 --displayname "Products Services v1" --proxies Products-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
+apigeecli products create --name Products-v1 --displayname "Products Services v1" --proxies Products-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 
 echo "Importing and Deploying Apigee Currency-v1 proxy..."
-REV=$(./apigeecli/apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-./apigeecli/apigeecli apis deploy-wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+REV=$(apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+apigeecli apis deploy-wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
+apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 echo "Importing and Deploying Apigee Orders-v1 proxy..."
-REV=$(./apigeecli/apigeecli apis import -f apigee/output/Orders-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
-./apigeecli/apigeecli apis deploy-wait --name Orders-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+REV=$(apigeecli apis import -f apigee/output/Orders-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+apigeecli apis deploy-wait --name Orders-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-./apigeecli/apigeecli products create --name Orders-v1 --displayname "Order Services v1" --proxies Orders-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
+apigeecli products create --name Orders-v1 --displayname "Order Services v1" --proxies Orders-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 
 echo "Creating Developer"
-./apigeecli/apigeecli developers create --user testuser --email testuser_apigeeasmdemo@acme.com --first Test --last User --org $PROJECT --token $TOKEN
+apigeecli developers create --user testuser --email testuser_apigeeasmdemo@acme.com --first Test --last User --org $PROJECT --token $TOKEN
 
 echo "Creating Developer App"
-./apigeecli/apigeecli apps create --name $APP_NAME --email testuser_apigeeasmdemo@acme.com --prods Products-v1 --prods Orders-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
+apigeecli apps create --name $APP_NAME --email testuser_apigeeasmdemo@acme.com --prods Products-v1 --prods Orders-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
 
-APIKEY=$(./apigeecli/apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
+APIKEY=$(apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
 
 echo "All the Apigee artifacts are successfully deployed!"
 echo "Use the below curl commands to test your demo"
@@ -179,4 +181,4 @@ echo "curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY'
 }'"
 echo " "
 
-rm -rf apigee/output apigeecli*
+#rm -rf apigee/output apigeecli*
