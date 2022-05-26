@@ -91,7 +91,7 @@ curl -H "Authorization: Bearer $TOKEN" \
     }' https://apigee.googleapis.com/v1/organizations/$PROJECT/developers/payinguser_apigeeasmdemo@acme.com/monetizationConfig
 
 
-APIKEY=$(apigeecli apps get --name paid-app --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
+APIKEY=$(apigeecli apps get --name paid-app --org $PROJECT --token $TOKEN --disable-check | jq ."[0].credentials[0].consumerKey" -r)
 
 echo "Mint Demo is successfully deployed!"
 echo "Use the below curl commands to test your demo"

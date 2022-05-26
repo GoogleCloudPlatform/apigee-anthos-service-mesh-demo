@@ -43,7 +43,7 @@ export PATH=$PATH:$HOME/.apigeecli/bin
 #mv apigeecli_${APIGEECLI_VERSION}_Linux_x86_64 apigeecli
 
 echo "Deleting Developer App"
-DEVELOPER_ID=$(apigeecli developers get --email payinguser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN | jq '.developerId' -r)
+DEVELOPER_ID=$(apigeecli developers get --email payinguser_apigeeasmdemo@acme.com --org $PROJECT --token $TOKEN --disable-check | jq '.developerId' -r)
 apigeecli apps delete --id $DEVELOPER_ID --name $APP_NAME --org $PROJECT --token $TOKEN
 
 echo "Deleting Developer"

@@ -122,11 +122,11 @@ else
 fi
 
 echo "Importing and Deploying Security Sharedflow"
-REV=$(apigeecli sharedflows import -f apigee/output/SF-Security-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+REV=$(apigeecli sharedflows import -f apigee/output/SF-Security-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli sharedflows deploy --name SF-Security-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Importing and Deploying Apigee Products-v1 proxy..."
-REV=$(apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+REV=$(apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli apis deploy-wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
@@ -134,14 +134,14 @@ apigeecli products create --name Products-v1 --displayname "Products Services v1
 
 
 echo "Importing and Deploying Apigee Currency-v1 proxy..."
-REV=$(apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+REV=$(apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli apis deploy-wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
 apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 echo "Importing and Deploying Apigee Orders-v1 proxy..."
-REV=$(apigeecli apis import -f apigee/output/Orders-v1.zip --org $PROJECT --token $TOKEN | jq ."revision" -r)
+REV=$(apigeecli apis import -f apigee/output/Orders-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli apis deploy-wait --name Orders-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
@@ -154,7 +154,7 @@ apigeecli developers create --user testuser --email testuser_apigeeasmdemo@acme.
 echo "Creating Developer App"
 apigeecli apps create --name $APP_NAME --email testuser_apigeeasmdemo@acme.com --prods Products-v1 --prods Orders-v1 --prods Currency-v1 --org $PROJECT --token $TOKEN
 
-APIKEY=$(apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN | jq ."[0].credentials[0].consumerKey" -r)
+APIKEY=$(apigeecli apps get --name $APP_NAME --org $PROJECT --token $TOKEN --disable-check | jq ."[0].credentials[0].consumerKey" -r)
 
 echo "All the Apigee artifacts are successfully deployed!"
 echo "Use the below curl commands to test your demo"
