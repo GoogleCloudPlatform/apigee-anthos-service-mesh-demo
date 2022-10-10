@@ -127,25 +127,25 @@ apigeecli sharedflows deploy --name SF-Security-v1 --ovr --rev $REV --org $PROJE
 
 echo "Importing and Deploying Apigee Products-v1 proxy..."
 REV=$(apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
-apigeecli apis deploy-wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+apigeecli apis deploy --wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-apigeecli products create --name Products-v1 --displayname "Products Services v1" --proxies Products-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
+apigeecli products create --name Products-v1 --displayname "Products Services v1" --proxies Products-v1 --envs $APIGEE_ENV --approval auto --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 
 echo "Importing and Deploying Apigee Currency-v1 proxy..."
 REV=$(apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
-apigeecli apis deploy-wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+apigeecli apis deploy --wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
+apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 echo "Importing and Deploying Apigee Orders-v1 proxy..."
 REV=$(apigeecli apis import -f apigee/output/Orders-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
-apigeecli apis deploy-wait --name Orders-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
+apigeecli apis deploy --wait --name Orders-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
-apigeecli products create --name Orders-v1 --displayname "Order Services v1" --proxies Orders-v1 --envs $APIGEE_ENV --approval auto --legacy --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
+apigeecli products create --name Orders-v1 --displayname "Order Services v1" --proxies Orders-v1 --envs $APIGEE_ENV --approval auto --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 
 echo "Creating Developer"
