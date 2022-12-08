@@ -56,7 +56,8 @@ kubectl config set-context $CLUSTERNAME
 echo "Deploying Online Boutique sample application..."
 kubectl create namespace onlineboutique
 kubectl label namespace onlineboutique istio-injection=enabled
-kubectl apply -f https://github.com/GoogleCloudPlatform/microservices-demo/raw/main/release/kubernetes-manifests.yaml -n onlineboutique
+ONLINE_BOUTIQUE_VERSION=$(curl -s https://api.github.com/repos/GoogleCloudPlatform/microservices-demo/releases | jq -r '[.[]] | .[0].tag_name')
+kubectl apply -f https://github.com/GoogleCloudPlatform/microservices-demo/raw/${ONLINE_BOUTIQUE_VERSION}/release/kubernetes-manifests.yaml -n onlineboutique
 
 ./orderservice/deploy.sh
 ./ui-ingress/deploy.sh
