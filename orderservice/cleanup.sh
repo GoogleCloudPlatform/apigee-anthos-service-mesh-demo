@@ -20,6 +20,5 @@ pushd "${SCRIPT_DIR}"
 echo "Cleaning up orderservice ..."
 kubectl delete -f ./kubernetes-manifests/orderservice-staging.yaml -n onlineboutique
 kubectl delete -f ./kubernetes-manifests/orderservice.yaml -n onlineboutique
-kubectl delete namespace orders
 
 popd
