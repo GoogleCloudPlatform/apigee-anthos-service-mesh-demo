@@ -48,7 +48,8 @@ gcloud container fleet mesh update \
     --management automatic \
     --memberships $CLUSTERNAME
 
-sleep 10s # we need to wait more here...
+echo "Waiting for Managed ASM to be enabled..."
+kubectl wait --for=condition=ProvisioningFinished controlplanerevision asm-managed -n istio-system --timeout 600s
 
 gcloud container clusters get-credentials $CLUSTERNAME --project=$PROJECT --zone=$LOCATION
 kubectl config set-context $CLUSTERNAME
