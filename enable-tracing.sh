@@ -38,7 +38,7 @@ array=(
   'onlineboutique/productcatalogservice'
   'onlineboutique/paymentservice'
   'onlineboutique/shippingservice'
-  'orders/orderservice'
+  'onlineboutique/orderservice'
 )
 
 for index in "${array[@]}" ; do

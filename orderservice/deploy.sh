@@ -18,19 +18,15 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 set -e && pushd "${SCRIPT_DIR}"
 
 echo "Deploying orderservice ..."
-echo "Creating orders namespace"
-kubectl create namespace orders
-
-kubectl label namespace orders istio-injection=enabled
 
 echo "Deploying orders service application code"
-kubectl apply -n orders -f ./kubernetes-manifests/orderservice-staging.yaml
-kubectl wait pod -n orders orderservice-staging --for condition=Ready=True --timeout=60s
-kubectl cp -n orders ./dist/Linux/orderservice orderservice-staging:/data/
-kubectl exec -it -n orders orderservice-staging -- bash -c "touch /data/ready"
-kubectl delete -n orders pod orderservice-staging
+kubectl apply -n onlineboutique -f ./kubernetes-manifests/orderservice-staging.yaml
+kubectl wait pod -n onlineboutique orderservice-staging --for condition=Ready=True --timeout=60s
+kubectl cp -n onlineboutique ./dist/Linux/orderservice orderservice-staging:/data/
+kubectl exec -it -n onlineboutique orderservice-staging -- bash -c "touch /data/ready"
+kubectl delete -n onlineboutique pod orderservice-staging
 
 echo "Deploying orders service"
-kubectl apply -n orders -f ./kubernetes-manifests/orderservice.yaml
+kubectl apply -n onlineboutique -f ./kubernetes-manifests/orderservice.yaml
 
 set +e && popd
