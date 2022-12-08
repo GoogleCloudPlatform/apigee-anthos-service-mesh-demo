@@ -42,9 +42,9 @@ spec:
             - name: DISABLE_TRACING
               value: "true"
             - name: CHECKOUT_SERVICE
-              value: "checkoutservice.checkout.svc.cluster.local:5050"
+              value: "checkoutservice:5050"
             - name: CART_SERVICE
-              value: "cartservice.cart.svc.cluster.local:7070"
+              value: "cartservice:7070"
           args: ["./data/orderservice"]
           ports:
             - name: grpc

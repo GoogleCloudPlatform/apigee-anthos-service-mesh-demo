@@ -21,8 +21,7 @@ echo "Deploying orderservice ..."
 echo "Creating orders namespace"
 kubectl create namespace orders
 
-ASM_VERSION=$(kubectl get deploy -n istio-system -l app=istiod -o jsonpath={.items[*].metadata.labels.'istio\.io\/rev'}'{"\n"}')
-kubectl label namespace orders istio.io/rev=$ASM_VERSION --overwrite
+kubectl label namespace orders istio-injection=enabled
 
 echo "Deploying orders service application code"
 kubectl apply -n orders -f ./kubernetes-manifests/orderservice-staging.yaml

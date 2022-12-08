@@ -136,6 +136,6 @@ spec:
             prefix: /
       route:
         - destination:
-            host: frontend.frontend.svc.cluster.local
+            host: frontend.onlineboutique.svc.cluster.local
             port:
               number: 80
