@@ -22,8 +22,7 @@ API_GATEWAY_NAMESPACE=${API_GATEWAY_NAMESPACE:-api-ingress}
 echo "Deploying API Ingress ..."
 kubectl create namespace "${API_GATEWAY_NAMESPACE}"
 
-ASM_VERSION=$(kubectl get deploy -n istio-system -l app=istiod -o jsonpath={.items[*].metadata.labels.'istio\.io\/rev'}'{"\n"}')
-kubectl label namespace "${API_GATEWAY_NAMESPACE}" istio.io/rev=$ASM_VERSION --overwrite
+kubectl label namespace "${API_GATEWAY_NAMESPACE}" istio-injection=enabled
 
 kubectl apply -n "${API_GATEWAY_NAMESPACE}" -f  ./kubernetes-manifests/deployment.yaml
 

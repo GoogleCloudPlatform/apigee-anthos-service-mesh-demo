@@ -21,10 +21,9 @@ UI_GATEWAY_NAMESPACE=${UI_GATEWAY_NAMESPACE:-ui-ingress}
 echo "Deploying UI Ingress ..."
 kubectl create namespace "${UI_GATEWAY_NAMESPACE}"
 
-ASM_VERSION=$(kubectl get deploy -n istio-system -l app=istiod -o jsonpath={.items[*].metadata.labels.'istio\.io\/rev'}'{"\n"}')
-kubectl label namespace "${UI_GATEWAY_NAMESPACE}" istio.io/rev=$ASM_VERSION --overwrite
+kubectl label namespace "${UI_GATEWAY_NAMESPACE}" istio-injection=enabled
 
-kubectl delete service -n frontend frontend-external
+kubectl delete service -n onlineboutique frontend-external
 
 gcloud compute addresses create ui-ingressgateway-ip --global --ip-version IPV4
 export UI_INGRESSGATEWAY_IP=$(gcloud compute addresses describe ui-ingressgateway-ip --global  --format json | jq -r ".address")

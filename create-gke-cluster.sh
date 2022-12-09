@@ -48,9 +48,11 @@ fi
 
 
 echo "Enabling APIs..."
-gcloud services enable compute.googleapis.com
-gcloud services enable container.googleapis.com
+gcloud services enable mesh.googleapis.com
 gcloud services enable cloudtrace.googleapis.com
+
+echo "Getting the Project number..."
+PROJECT_NUMBER=$(gcloud projects describe $PROJECT --format='get(projectNumber)')
 
 echo "Creating cluster..."
 gcloud container clusters create $CLUSTERNAME \
@@ -60,5 +62,5 @@ gcloud container clusters create $CLUSTERNAME \
     --num-nodes=3 \
     --workload-pool=$PROJECT.svc.id.goog \
     --network=$NETWORK \
-    --subnetwork=$SUBNETWORK
-
+    --subnetwork=$SUBNETWORK \
+    --labels mesh_id=proj-$PROJECT_NUMBER

@@ -43,7 +43,7 @@ spec:
             prefix: /hipstershop.ProductCatalogService
       route:
         - destination:
-            host: productcatalogservice.product-catalog.svc.cluster.local
+            host: productcatalogservice.onlineboutique.svc.cluster.local
             port:
               number: 3550
     - name: products
@@ -52,7 +52,7 @@ spec:
             prefix: /hipstershop.CurrencyService
       route:
         - destination:
-            host: currencyservice.currency.svc.cluster.local
+            host: currencyservice.onlineboutique.svc.cluster.local
             port:
               number: 7000
     - name: products
@@ -61,6 +61,6 @@ spec:
             prefix: /hipstershop.OrderService
       route:
         - destination:
-            host: orderservice.orders.svc.cluster.local
+            host: orderservice.onlineboutique.svc.cluster.local
             port:
               number: 9090

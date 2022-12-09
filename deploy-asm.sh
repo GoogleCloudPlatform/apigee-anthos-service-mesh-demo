@@ -33,40 +33,43 @@ echo "No CLUSTERNAME variable set"
 exit
 fi
 
-gcloud services enable cloudtrace.googleapis.com
+echo "Register GKE cluster to the fleet..."
+gcloud container fleet memberships register $CLUSTERNAME \
+    --gke-cluster $LOCATION/$CLUSTERNAME \
+    --enable-workload-identity
+    
+echo "Enable Managed ASM on the project..."
+gcloud container fleet mesh enable
+
+echo "Wait for ASM CRD in the GKE cluster..."
+for i in {1..10}; do
+  if kubectl wait --for condition=established --timeout=10s crd/controlplanerevisions.mesh.cloud.google.com 2>/dev/null; then
+    break
+  fi
+  sleep 10
+done
+
+echo "Enable Managed ASM on the GKE cluster..."
+gcloud container fleet mesh update \
+    --management automatic \
+    --memberships $CLUSTERNAME
+
+echo "Wait for ASM resource in the GKE cluster..."
+for i in {1..10}; do
+  if kubectl wait --for condition=ProvisioningFinished --timeout=10s controlplanerevision asm-managed -n istio-system  2>/dev/null; then
+    break
+  fi
+  sleep 10
+done
 
 gcloud container clusters get-credentials $CLUSTERNAME --project=$PROJECT --zone=$LOCATION
 kubectl config set-context $CLUSTERNAME
 
-echo "Installing ASM..."
-curl -s https://storage.googleapis.com/csm-artifacts/asm/asmcli_1.13 > asmcli
-chmod +x asmcli
-
-sleep 5s
-
-./asmcli install \
-  --project_id $PROJECT \
-  --cluster_name $CLUSTERNAME \
-  --cluster_location $LOCATION \
-  --fleet_id $PROJECT \
-  --output_dir asmoutput \
-  --enable_all \
-  --ca mesh_ca
-
-sleep 10s
-
-export REVISION=$(kubectl get deploy -n istio-system -l app=istiod -o jsonpath={.items[*].metadata.labels.'istio\.io\/rev'}'{"\n"}')
-
 echo "Deploying Online Boutique sample application..."
-kubectl apply -f asmoutput/samples/online-boutique/kubernetes-manifests/namespaces
-
-for ns in ad cart checkout currency email frontend loadgenerator payment product-catalog recommendation shipping; do
-  kubectl label namespace $ns istio.io/rev=$REVISION --overwrite
-done;
-
-kubectl apply -f asmoutput/samples/online-boutique/kubernetes-manifests/deployments
-kubectl apply -f asmoutput/samples/online-boutique/kubernetes-manifests/services
-kubectl apply -f asmoutput/samples/online-boutique/istio-manifests/allow-egress-googleapis.yaml
+kubectl create namespace onlineboutique --dry-run=client -o yaml | kubectl apply -f -
+kubectl label namespace onlineboutique istio-injection=enabled
+ONLINE_BOUTIQUE_VERSION=$(curl -s https://api.github.com/repos/GoogleCloudPlatform/microservices-demo/releases | jq -r '[.[]] | .[0].tag_name')
+kubectl apply -f https://github.com/GoogleCloudPlatform/microservices-demo/raw/${ONLINE_BOUTIQUE_VERSION}/release/kubernetes-manifests.yaml -n onlineboutique
 
 ./orderservice/deploy.sh
 ./ui-ingress/deploy.sh

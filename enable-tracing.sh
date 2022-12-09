@@ -24,19 +24,21 @@ echo "No PROJECT variable set"
 exit
 fi
 
+# FIXME
+
 array=(
-  'cart/cartservice'
-  'checkout/checkoutservice'
-  'ad/adservice'
-  'currency/currencyservice'
-  'email/emailservice'
-  'frontend/frontend'
-  'loadgenerator/loadgenerator'
-  'recommendation/recommendationservice'
-  'product-catalog/productcatalogservice'
-  'payment/paymentservice'
-  'shipping/shippingservice'
-  'orders/orderservice'
+  'onlineboutique/cartservice'
+  'onlineboutique/checkoutservice'
+  'onlineboutique/adservice'
+  'onlineboutique/currencyservice'
+  'onlineboutique/emailservice'
+  'onlineboutique/frontend'
+  'onlineboutique/loadgenerator'
+  'onlineboutique/recommendationservice'
+  'onlineboutique/productcatalogservice'
+  'onlineboutique/paymentservice'
+  'onlineboutique/shippingservice'
+  'onlineboutique/orderservice'
 )
 
 for index in "${array[@]}" ; do
@@ -44,6 +46,7 @@ for index in "${array[@]}" ; do
     name="${index##*/}"
     kubectl wait deployment -n "${ns}" "${name}"  --timeout=300s --for condition=Available=True
     kubectl set env "deployment/${name}" -n "${ns}" DISABLE_TRACING=
+    kubectl set env "deployment/${name}" -n "${ns}" ENABLE_TRACING=1
 done
 
 
