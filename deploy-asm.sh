@@ -41,15 +41,26 @@ gcloud container fleet memberships register $CLUSTERNAME \
 echo "Enable Managed ASM on the project..."
 gcloud container fleet mesh enable
 
-sleep 5s
+echo "Wait for ASM CRD in the GKE cluster..."
+for i in {1..10}; do
+  if kubectl wait --for condition=established --timeout=10s crd/controlplanerevisions.mesh.cloud.google.com 2>/dev/null; then
+    break
+  fi
+  sleep 10
+done
 
 echo "Enable Managed ASM on the GKE cluster..."
 gcloud container fleet mesh update \
     --management automatic \
     --memberships $CLUSTERNAME
 
-echo "Waiting for Managed ASM to be enabled..."
-kubectl wait --for=condition=ProvisioningFinished controlplanerevision asm-managed -n istio-system --timeout 600s
+echo "Wait for ASM resource in the GKE cluster..."
+for i in {1..10}; do
+  if kubectl wait --for condition=ProvisioningFinished --timeout=10s controlplanerevision asm-managed -n istio-system  2>/dev/null; then
+    break
+  fi
+  sleep 10
+done
 
 gcloud container clusters get-credentials $CLUSTERNAME --project=$PROJECT --zone=$LOCATION
 kubectl config set-context $CLUSTERNAME
