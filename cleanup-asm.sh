@@ -51,3 +51,8 @@ kubectl delete -f asmoutput/samples/online-boutique/kubernetes-manifests/namespa
 echo "Deleting ASM Gateway..."
 ./ui-ingress/cleanup.sh
 ./orderservice/cleanup.sh
+
+echo "Unregister your cluster from the fleet..."
+gcloud container fleet memberships unregister $CLUSTERNAME \
+    --project=$PROJECT \
+    --gke-cluster=$LOCATION/$CLUSTERNAME
