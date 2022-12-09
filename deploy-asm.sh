@@ -66,7 +66,7 @@ gcloud container clusters get-credentials $CLUSTERNAME --project=$PROJECT --zone
 kubectl config set-context $CLUSTERNAME
 
 echo "Deploying Online Boutique sample application..."
-kubectl create namespace onlineboutique
+kubectl create namespace onlineboutique --dry-run=client -o yaml | kubectl apply -f -
 kubectl label namespace onlineboutique istio-injection=enabled
 ONLINE_BOUTIQUE_VERSION=$(curl -s https://api.github.com/repos/GoogleCloudPlatform/microservices-demo/releases | jq -r '[.[]] | .[0].tag_name')
 kubectl apply -f https://github.com/GoogleCloudPlatform/microservices-demo/raw/${ONLINE_BOUTIQUE_VERSION}/release/kubernetes-manifests.yaml -n onlineboutique
