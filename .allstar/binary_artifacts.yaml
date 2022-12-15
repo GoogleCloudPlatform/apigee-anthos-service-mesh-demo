@@ -1,0 +1,3 @@
+# Ignore reason: This artifact is used for demo purpose and is built from the code available in this repo
+ignorePaths:
+- orderservice/dist/Linux/orderservice
