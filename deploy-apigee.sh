@@ -122,11 +122,11 @@ else
 fi
 
 echo "Importing and Deploying Security Sharedflow"
-REV=$(apigeecli sharedflows import -f apigee/output/SF-Security-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
+REV=$(apigeecli sharedflows create -p apigee/output/SF-Security-v1.zip --name SF-Security-v1 --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli sharedflows deploy --name SF-Security-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Importing and Deploying Apigee Products-v1 proxy..."
-REV=$(apigeecli apis import -f apigee/output/Products-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
+REV=$(apigeecli apis create bundle -p apigee/output/Products-v1.zip --name="Products-v1" --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli apis deploy --wait --name Products-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
@@ -134,14 +134,14 @@ apigeecli products create --name Products-v1 --displayname "Products Services v1
 
 
 echo "Importing and Deploying Apigee Currency-v1 proxy..."
-REV=$(apigeecli apis import -f apigee/output/Currency-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
+REV=$(apigeecli apis create bundle -p apigee/output/Currency-v1.zip --name="Currency-v1" --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli apis deploy --wait --name Currency-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
 apigeecli products create --name Currency-v1 --displayname "Currency Services v1" --proxies Currency-v1 --envs $APIGEE_ENV --approval auto --quota 10 --interval 1 --unit minute --org $PROJECT --token $TOKEN
 
 echo "Importing and Deploying Apigee Orders-v1 proxy..."
-REV=$(apigeecli apis import -f apigee/output/Orders-v1.zip --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
+REV=$(apigeecli apis create bundle -p apigee/output/Orders-v1.zip --name="Orders-v1" --org $PROJECT --token $TOKEN --disable-check | jq ."revision" -r)
 apigeecli apis deploy --wait --name Orders-v1 --ovr --rev $REV --org $PROJECT --env $APIGEE_ENV --token $TOKEN
 
 echo "Creating API Product"
@@ -177,7 +177,7 @@ echo "curl -X POST 'https://$APIGEE_HOST/v1/orderservices/orders?apikey=$APIKEY'
   \""user_id\"": \""johndoe\"",\""email\"": \""johndoe@acme.com\"",\""currency\"": \""USD\"",
   \""items\"": [{\""id\"": \""6E92ZMYYFZ\"",\""quantity\"": 2}],
   \""address\"": {\""street\"": \""111 Aspen Court\"",\""city\"": \""Quincy\"",\""state\"": \""Massachusetts\"",\""country\"": \""US\"",\""zip\"": 32169},
-  \""credit_card\"": {\""number\"": \""4263982640269299\"",\""cvv\"": 837,\""exp_year\"": 2023,\""exp_month\"": 2}
+  \""credit_card\"": {\""number\"": \""4263982640269299\"",\""cvv\"": 837,\""exp_year\"": 2026,\""exp_month\"": 12}
 }'"
 echo " "
 
