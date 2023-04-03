@@ -33,24 +33,17 @@ echo "No CLUSTERNAME variable set"
 exit
 fi
 
-
-
 gcloud container clusters get-credentials $CLUSTERNAME --project=$PROJECT  --zone=$LOCATION
 
 kubectl config set-context $CLUSTERNAME
 
-echo "Deleting Online Boutique sample application..."
-kubectl delete -f asmoutput/samples/online-boutique/istio-manifests/allow-egress-googleapis.yaml
-
-kubectl delete -f asmoutput/samples/online-boutique/kubernetes-manifests/services
-
-kubectl delete -f asmoutput/samples/online-boutique/kubernetes-manifests/deployments
-
-kubectl delete -f asmoutput/samples/online-boutique/kubernetes-manifests/namespaces
-
-echo "Deleting ASM Gateway..."
 ./ui-ingress/cleanup.sh
 ./orderservice/cleanup.sh
+
+echo "Deleting Online Boutique sample application..."
+kubectl delete services --all -n onlineboutique
+kubectl delete deployments --all -n onlineboutique
+kubectl delete namespace onlineboutique
 
 echo "Unregister your cluster from the fleet..."
 gcloud container fleet memberships unregister $CLUSTERNAME \
