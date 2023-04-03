@@ -41,6 +41,9 @@ gcloud container fleet memberships register $CLUSTERNAME \
 echo "Enable Managed ASM on the project..."
 gcloud container fleet mesh enable
 
+gcloud container clusters get-credentials $CLUSTERNAME --project=$PROJECT --zone=$LOCATION
+kubectl config set-context $CLUSTERNAME
+
 echo "Wait for ASM CRD in the GKE cluster..."
 for i in {1..10}; do
   if kubectl wait --for condition=established --timeout=10s crd/controlplanerevisions.mesh.cloud.google.com 2>/dev/null; then
@@ -61,9 +64,6 @@ for i in {1..10}; do
   fi
   sleep 10
 done
-
-gcloud container clusters get-credentials $CLUSTERNAME --project=$PROJECT --zone=$LOCATION
-kubectl config set-context $CLUSTERNAME
 
 echo "Deploying Online Boutique sample application..."
 kubectl create namespace onlineboutique --dry-run=client -o yaml | kubectl apply -f -
