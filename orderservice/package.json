@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "@google-cloud/trace-agent": "^5.1.6",
-    "@grpc/grpc-js": "^1.6.3",
+    "@grpc/grpc-js": "^1.8.8",
     "@grpc/proto-loader": "^0.6.9",
     "google-protobuf": "^3.20.1-rc.1"
   }
